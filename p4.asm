@@ -316,6 +316,14 @@ CHECK_N		; check range for N
 CHECK_N_R7 .FILL 0
 INPUT		; subroutine, leaves stuff in r4
 		; save r7 so we dont lose where we came from
+		
+		st r0 , INPUT_R0
+		st r1 , INPUT_R1
+		st r2 , INPUT_R2
+		st r3 , INPUT_R3
+		st r4 , INPUT_R4
+		st r5 , INPUT_R5
+		st r6 , INPUT_R6
 		st r7, 	INPUT_R7
 
 
@@ -393,9 +401,24 @@ OVERFLOW_2		lea r0 , MSG_OVERFLOW
 CASE		add r1, r2, #0 ; check if negative flag is on
 		brzp OVERFLOW_2 ; if it is not negative, then it cant be -32768, is a valid overflow
 		br INPUT_I	
-INPUT_READY	ld r7, INPUT_R7
+INPUT_READY	
+		ld r0 , INPUT_R0
+		ld r1 , INPUT_R1
+		ld r2 , INPUT_R2
+		ld r3 , INPUT_R3
+		ld r4 , INPUT_R4
+		ld r5 , INPUT_R5
+		ld r6 , INPUT_R6
+		ld r7, INPUT_R7
 		add r0 , r4 , #0
 		ret	; go home boy
+INPUT_R0 .FILL 0
+INPUT_R1 .FILL 0
+INPUT_R2 .FILL 0
+INPUT_R3 .FILL 0
+INPUT_R4 .FILL 0
+INPUT_R5 .FILL 0
+INPUT_R6 .FILL 0
 INPUT_R7 .FILL 0
 YES_ENTER 	; if enter was first char, it will just assume thats a 0
 		;check if no number was pressed
