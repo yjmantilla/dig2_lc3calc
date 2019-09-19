@@ -325,7 +325,7 @@ INPUT_NO_SAVE	lea r0 , MSG_ENTER
 		; we dont need to save r7 so as long we
 		; dont go to something that also goes to a subroutine
 
-		MSG_ENTER .stringz "\nEnter it:"
+		MSG_ENTER .stringz "\n:"
 
 		jsr PUTSMSG
 		
@@ -335,6 +335,7 @@ INPUT_NO_SAVE	lea r0 , MSG_ENTER
 		
 		and r2 , r2 , x0000
 		and r4 , r4 , x0000
+		and r3, r3, x0000 ; flag to know if it was a number
 		
 INPUT_I		jsr GETCHAR	; gets c in r0
 		
@@ -365,7 +366,7 @@ INPUT_I		jsr GETCHAR	; gets c in r0
 
 		;convert to number
 		and r0 , r0 , xF
-
+		add r3, r3, #1 ; to know how many number chars were inserted apart from enter
 ACCUM		add r1 , r4 , #0 ; r1 <- 1 r4
 		brn OVERFLOW
 		add r4 , r4 , r4 ; r4 <- 2 r1
@@ -397,7 +398,9 @@ INPUT_READY	ld r7, INPUT_R7
 		ret	; go home boy
 INPUT_R7 .FILL 0
 YES_ENTER 	; if enter was first char, it will just assume thats a 0
-	
+		;check if no number was pressed
+		add r3,r3,#0
+		brz INPUT_I
 		; check if we need to negate
 		add r1 , r4 , #0
 		add r2 , r2 , #0
