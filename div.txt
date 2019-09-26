@@ -1,0 +1,45 @@
+DIV	ST R0, DIV_R0
+	ST R2, DIV_R2
+	ST R3, DIV_R3
+	AND R0, R0, #0	; R0 holds our quotient
+	AND R3, R3, #0	; R3 holds negative flag
+	ADD R1, R1, #0
+	BRn DIV_NEG_1	; If first argument is negative flip flag
+DIV_CHECK_NEG_2
+	ADD R2, R2, #0
+	Brn DIV_NEG_2	; Or the second
+DIV_POST_CHECK_NEG
+	NOT R2, R2
+	ADD R2, R2, #1	; R2 (divisor) negated for repeated subtraction
+	BRnzp DIV_LOOP
+DIV_NEG_1 ; First operand is negative
+	NOT R1, R1	; Negate first argument (both must be positive)
+	ADD R1, R1, #1
+	NOT R3, R3
+	BRnzp DIV_CHECK_NEG_2
+DIV_NEG_2 ; Second operand is negative
+	NOT R2, R2	; Negate second argument
+	ADD R2, R2, #1
+	NOT R3, R3
+	BRnzp DIV_POST_CHECK_NEG
+DIV_LOOP
+	ADD R1, R1, R2
+	BRn DIV_CLEANUP	; We've subtracted once too many
+	ADD R0, R0, #1	; Number of times it fits in goes up
+	BRnzp DIV_LOOP
+DIV_CLEANUP
+	ADD R3, R3, #0
+	BRzp DIV_NOT_NEG
+	NOT R0, R0	; Here we know the output is negative, so negate it!
+	ADD R0, R0, #1
+DIV_NOT_NEG
+	AND R1, R1, #0
+	ADD R1, R1, R0	; Put our result in R1 for return
+	LD R0, DIV_R0
+	LD R2, DIV_R2
+	LD R3, DIV_R3
+	ADD R1, R1, #0	; Set condition codes for calling routine
+	RET
+DIV_R0	.FILL 0
+DIV_R2	.FILL 0
+DIV_R3	.FILL 0

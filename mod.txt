@@ -1,0 +1,46 @@
+MOD	ST R0, MOD_R0
+	ST R2, MOD_R2
+	ST R3, MOD_R3
+	AND R0, R0, #0	; R0 holds our quotient
+	AND R3, R3, #0	; R3 holds negative flag
+	ADD R1, R1, #0
+	BRn MOD_NEG_1	; If first argument is negative flip flag
+MOD_CHECK_NEG_2
+	ADD R2, R2, #0
+	Brn MOD_NEG_2	; Or the second
+MOD_POST_CHECK_NEG
+	NOT R2, R2
+	ADD R2, R2, #1	; R2 (divisor) negated for repeated subtraction
+	BRnzp MOD_LOOP
+MOD_NEG_1 ; First operand is negative
+	NOT R1, R1	; Negate first argument (both must be positive)
+	ADD R1, R1, #1
+	NOT R3, R3
+	BRnzp MOD_CHECK_NEG_2
+MOD_NEG_2 ; Second operand is negative
+	NOT R2, R2	; Negate second argument
+	ADD R2, R2, #1
+	NOT R3, R3
+	BRnzp MOD_POST_CHECK_NEG
+MOD_LOOP
+	ADD R1, R1, R2
+	BRn MOD_CLEANUP	; We've subtracted once too many
+	ADD R0, R0, #1	; Number of times it fits in goes up
+	BRnzp MOD_LOOP
+MOD_CLEANUP
+	NOT R2, R2
+	ADD R2, R2, #1	; Mod loop does one too many subtractions
+	ADD R1, R1, R2	; So do one addition to compensate.
+	ADD R3, R3, #0
+	BRzp MOD_NOT_NEG
+	NOT R0, R0	; Here we know the output is negative, so negate it!
+	ADD R0, R0, #1
+MOD_NOT_NEG
+	LD R0, MOD_R0
+	LD R2, MOD_R2
+	LD R3, MOD_R3
+	ADD R1, R1, #0	; Set condition codes for calling routine
+	RET
+MOD_R0	.FILL 0
+MOD_R2	.FILL 0
+MOD_R3	.FILL 0

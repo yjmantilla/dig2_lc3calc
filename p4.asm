@@ -1,5 +1,5 @@
-.orig x0000
-MSG_MENU .stringz "\n\nMENU\n\n1 N again\n2 Highest\n3 Lowest\n4 Des.Sort\n5 Asc.Sort\n6 MUL 2 4 8?\nEnter op."
+.orig x3000
+MSG_MENU .stringz "\n\n--RPN CALC--\n1 Enter Stack\n2 View Stack\n3 Make Op's\n4 Clean Stack\nEnter op."
 MSG_ENTER_N	.stringz "\n\nFirst enter N"
 MSG_ENTER_NUM	.stringz "\n\nEnter nums"
 MSG_N_OK .stringz "\nN ok!"
@@ -8,24 +8,27 @@ MSG_HIGH .stringz "\nHIGHEST:\n"
 MSG_LOW .stringz "\nLOWEST:\n"
 MSG_MUL .stringz "\nMULTS: \n"	
 
-
+; jsrPUTSMSG <-> pputs
+; jsrPUTCHAR <-> oout
+; jsrGETCHAR <-> ggetc
+;
 BEGIN		br MAIN_MSG
 
 MAIN_MSG	lea r0 , MSG_ENTER_N
-		jsr PUTSMSG
+		puts
 MAIN		jsr INPUT
 		jsr CHECK_N
 		st r4 , N_STORE
 		br INPUT_N_DONE
 
 INPUT_N_DONE	lea r0 , MSG_N_OK
-		jsr PUTSMSG
+		puts
 		lea r0, MSG_ENTER_NUM
-		jsr PUTSMSG
+		puts
 		br ENTER_NUM
 
 MENU		lea r0 , MSG_MENU	;Shows menu and ask for option
-		jsr PUTSMSG
+		puts
 		jsr INPUT	; r4 now has option
 		add r1 , r4 , #-1
 		brz MAIN_MSG
@@ -35,18 +38,14 @@ MENU		lea r0 , MSG_MENU	;Shows menu and ask for option
 		brz LOW_VAL
 		add r1 , r4 , #-4
 		brz DESC_SORT
-		add r1 , r4 , #-5
-		brz ASC_SORT
-		add r1 , r4 , #-6
-		brz MUL_248
 		; else invalid option
 		br WHAT	
 WHAT		lea r0 , MSG_WHAT
-		jsr PUTSMSG
+		puts
 		br MENU	
 
 HIGH_VAL	lea r0 MSG_HIGH
-		jsr PUTSMSG
+		puts
 		
 		jsr SORT
 		;show only first pos
@@ -62,9 +61,9 @@ HIGH_VAL	lea r0 MSG_HIGH
 		add r3 , r3 , #1
 		jsr SHOW_PREP
 		br MENU
-DATA_STORE_1 .FILL x3000
+DATA_STORE_1 .FILL x4000
 LOW_VAL		lea r0 MSG_LOW
-		jsr PUTSMSG
+		puts
 		jsr SORT
 		;show only first pos
 		; set next operator
@@ -84,7 +83,7 @@ LOW_VAL		lea r0 MSG_LOW
 DESC_SORT
 		;save reg
 		lea r0 MSG_DESC
-		jsr PUTSMSG
+		puts
 		MSG_DESC .stringz "\nDESC.SORT:\n"
 		jsr SORT
 		;;lea r3 , DATA_STORE		; r3 <- address of data
@@ -96,11 +95,11 @@ DESC_SORT
 		add r6,r6,#1
 		jsr SHOW_PREP
 		br MENU
-DATA_STORE_2 .FILL x3000
+DATA_STORE_2 .FILL x4000
 ASC_SORT	
 		;save reg
 		lea r0 MSG_ASC
-		jsr PUTSMSG
+		puts
 		MSG_ASC .stringz "\nASC.SORT:\n"
 		jsr SORT
 		
@@ -166,7 +165,7 @@ SORT_R3 .FILL 0
 SORT_R4 .FILL 0
 SORT_R5 .FILL 0
 SORT_R6 .FILL 0
-DATA_STORE_3 .FILL x3000
+DATA_STORE_3 .FILL x4000
 N_STORE		.blkw 1	
 NEG_1		LDR     R2, R3, #1
 		brp	SWAP
@@ -180,7 +179,7 @@ SHOW_PREP	; Needs r3 with address of data array
 		;lea r3 , DATA_STORE		; r3 <- address of data 
 		;add r3 , r3 , #1
 SHOW_LOOP	lea r0 , MSG_SEP
-		jsr PUTSMSG
+		puts
 		add r4, r4, #-1		
 		brn SHOW_END	
 		ldr r0, r3, #0
@@ -199,11 +198,11 @@ MSG_8 .stringz "\n8:"
 MUL_248
 		
 		lea r0 , MSG_MUL
-		jsr PUTSMSG
+		puts
 		
 		; for 2
 		lea r0 , MSG_2
-		jsr PUTSMSG
+		puts
 		;set mask in r6
 		and r6,r6,#0
 		add r6,r6,x0001
@@ -211,7 +210,7 @@ MUL_248
 
 		; for 4
 		lea r0 , MSG_4
-		jsr PUTSMSG
+		puts
 		;set mask in r6
 		and r6,r6,#0
 		add r6,r6,x0003
@@ -219,7 +218,7 @@ MUL_248
 
 		; for 8
 		lea r0 , MSG_8
-		jsr PUTSMSG
+		puts
 		;set mask in r6
 		and r6,r6,#0
 		add r6,r6,x0007
@@ -251,7 +250,7 @@ CONT_M		add r3 , r3 , #1
 		br MULTIPLE_LOOP
 		
 IS_MUL		lea r0 , MSG_SEP
-		jsr PUTSMSG
+		puts
 		add r0 , r1 , #0
 		jsr DISPD
 		br CONT_M
@@ -272,11 +271,11 @@ M_R0 .FILL 0
 M_R4 .FILL 0
 M_R7 .FILL 0
 NOT_IN_RANGE	lea r0 , MSG_ERROR_N
-		jsr PUTSMSG
+		puts
 		br MAIN
 
 NUM_DONE	lea r0 , MSG_NUM_OK
-		jsr PUTSMSG	
+		puts	
 		br MENU
 
 	
@@ -291,7 +290,7 @@ ENTER_NUM_LOOP	add r3 , r3 , #-1
 		jsr PUSH_R1_DATA
 		br ENTER_NUM_LOOP
 			
-DATA_STORE_4 .FILL x3000
+DATA_STORE_4 .FILL x4000
 MSG_ERROR_N     .stringz "\nError: 15 <= N <= 30"
 MSG_NUM_OK .stringz "\nNums ok!"
 N_LOW		.fill #2 ;15
@@ -335,7 +334,7 @@ INPUT_NO_SAVE	lea r0 , MSG_ENTER
 
 		MSG_ENTER .stringz "\n:"
 
-		jsr PUTSMSG
+		puts
 		
 		; R1 will be aux dummy reg
 		; R2 will indicate if the number is negative or not
@@ -345,12 +344,12 @@ INPUT_NO_SAVE	lea r0 , MSG_ENTER
 		and r4 , r4 , x0000
 		and r3, r3, x0000 ; flag to know if it was a number
 		
-INPUT_I		jsr GETCHAR	; gets c in r0
+INPUT_I		getc	; gets c in r0
 		
 		
 		add r1 , r0 , #-10	; check if enter was pressed
 		brz YES_ENTER
-		jsr PUTCHAR	; echo what is in r0 (if not enter)
+		out	; echo what is in r0 (if not enter)
 		
 		; check if it is a negative number (-) (45)
 		add r1 , r0 , #-15
@@ -396,7 +395,7 @@ OVERFLOW	add r1 , r4 , r4 ; check if it was possibly -32768
 		brz CASE
 OVERFLOW_2		lea r0 , MSG_OVERFLOW
 		MSG_OVERFLOW .stringz "\nOverflow"
-		jsr PUTSMSG
+		puts
 		br INPUT_NO_SAVE
 CASE		add r1, r2, #0 ; check if negative flag is on
 		brzp OVERFLOW_2 ; if it is not negative, then it cant be -32768, is a valid overflow
@@ -462,7 +461,7 @@ DISPD	ADD R0, R0, #0		; to assert if the number is not zero
 	BRnp DISPD_NON_ZERO
 	ST r7, DISPD_R7			; store home
 	LD R0, DISPD_0		; load 0 in ascii
-	jsr PUTCHAR			; display to console
+	out			; display to console
 	LD R7, DISPD_R7		; load r7 again to return
 	ret
 DISPD_NON_ZERO
@@ -488,7 +487,7 @@ DISPD_NON_ZERO
 	NOT R5, R5	; if it is negate it
 	ADD R5, R5, #1	; Negate to positive
 	LD R0, DISPD_NEG	; Input is negative. Display negative sign.
-	jsr PUTCHAR		; Now we may continue with de ascending loop
+	out		; Now we may continue with de ascending loop
 DISPD_LOOP_ASC		; this loop is to find the largest power of 10 used by the number
 			; but it actually overshoots...
 	AND R1, R1, #0	; clear r1
@@ -517,7 +516,7 @@ DISPD_LOOP_DESC_AGAIN
 	JSR DIV		; And see how many times the one fits in the other
 ; Here is where we actually display something
 	ADD R0, R1, R4	; ascii 0 + offset of the number
-	jsr PUTCHAR
+	out
 	JSR MUL		; Multiply power of ten by result of integer division
 	NOT R1, R1
 	ADD R1, R1, #1	; And negate result
@@ -544,7 +543,7 @@ DISPD_END
 	RET
 SPECIAL_CASE
 	lea r0, CASE_STR
-	jsr PUTSMSG
+	puts
 	br DISPD_END
 DISPD_NEG	.FILL #45	; Negative sign
 DISPD_0		.FILL #48	; ASCII 0
@@ -678,7 +677,7 @@ PUTSMSG: st r0, PMR0 ; Store R0 into memory to keep a copy of the next char addr
 ldr r0,r0,#0; Load the char to be sent
 brz PUTSMSGE ; Return if the char is NULL
 st r7, PMR7 ; Store R7 because is needed by RET instruction
-jsr PUTCHAR ; Send the char in R0
+out ; Send the char in R0
 ld r7, PMR7 ; Restore R7
 ld r0, PMR0 ; Restore the address of the char sent
 add r0,r0,#1 ; Compute the address of the next char
@@ -693,5 +692,6 @@ KBDR: .FILL xFE02 ; Keyboard Data Register Address
 DSR: .FILL xFE04 ; Display Status Register Address
 DDR: .FILL xFE06 ; Display Data Register Address
 ;DATA_STORE 	.blkw #31 ; because push pushes in the next
+
 
 .end
