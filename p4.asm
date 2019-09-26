@@ -1,4 +1,4 @@
-.orig x3000
+.orig x3000 ; change to x0000 for fpga version
 MSG_MENU .stringz "\n\n--RPN CALC--\n1 Enter Stack\n2 View Stack\n3 Make Op's\n4 Clean Stack\nEnter op."
 MSG_ENTER_N	.stringz "\n\nFirst enter N"
 MSG_ENTER_NUM	.stringz "\n\nEnter nums"
@@ -11,8 +11,10 @@ MSG_MUL .stringz "\nMULTS: \n"
 ; jsrPUTSMSG <-> pputs
 ; jsrPUTCHAR <-> oout
 ; jsrGETCHAR <-> ggetc
-;
-BEGIN		br MAIN_MSG
+; op stack in x7000
+; data stack in x4000
+BEGIN		ld r5 , DATA_STORE_1 ; init data stack	
+		br MENU
 
 MAIN_MSG	lea r0 , MSG_ENTER_N
 		puts
@@ -23,7 +25,7 @@ MAIN		jsr INPUT
 
 INPUT_N_DONE	lea r0 , MSG_N_OK
 		puts
-		lea r0, MSG_ENTER_NUM
+ENTER_STACK		lea r0, MSG_ENTER_NUM
 		puts
 		br ENTER_NUM
 
@@ -31,34 +33,41 @@ MENU		lea r0 , MSG_MENU	;Shows menu and ask for option
 		puts
 		jsr INPUT	; r4 now has option
 		add r1 , r4 , #-1
-		brz MAIN_MSG
+		brz ENTER_STACK
 		add r1 , r4 , #-2
-		brz HIGH_VAL
+		brz VIEW_STACK
 		add r1 , r4 , #-3
 		brz LOW_VAL
 		add r1 , r4 , #-4
 		brz DESC_SORT
+		add r1 , r4 , #-5
+		brz ASC_SORT
+		add r1 , r4 , #-6
+		brz MUL_248
 		; else invalid option
 		br WHAT	
 WHAT		lea r0 , MSG_WHAT
 		puts
 		br MENU	
 
-HIGH_VAL	lea r0 MSG_HIGH
+VIEW_STACK			;save reg
+		lea r0 MSG_VIEW
 		puts
+		MSG_VIEW .stringz "\nSTACK:\n"
+		;set start point
+		;;lea r3 , DATA_STORE		; r3 <- address of data
+		ld r3 , DATA_STORE_2
+		add r3 , r3 , #1 ;no need to increase, for showing in correct order
+		;ld r2,CAP;N_STORE
+		;add r3,r3,r2 ; last position
 		
-		jsr SORT
-		;show only first pos
-
-		; set next operator
+		; set how many to show
+		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
+		
+		;set next operator
 		and r6,r6,#0
+		;add r6,r6,#-1
 		add r6,r6,#1
-		;set number of numbers to show
-		and r4 , r4 , #0
-		add r4 , r4 , #1 ; only one
-		;;lea r3 , DATA_STORE		; r3 <- address of data 
-		ld r3 , DATA_STORE_1
-		add r3 , r3 , #1
 		jsr SHOW_PREP
 		br MENU
 DATA_STORE_1 .FILL x4000
@@ -75,7 +84,7 @@ LOW_VAL		lea r0 MSG_LOW
 		;;lea r3 , DATA_STORE		; r3 <- address of data 
 		;add r3 , r3 , #1 no need to increase
 		ld r3 , DATA_STORE_1
-		ld r2,N_STORE
+		ld r2,CAP;N_STORE
 		add r3,r3,r2 ; last position
 		jsr SHOW_PREP
 		br MENU
@@ -89,7 +98,7 @@ DESC_SORT
 		;;lea r3 , DATA_STORE		; r3 <- address of data
 		ld r3 , DATA_STORE_2
 		add r3 , r3 , #1
-		ld r4 , N_STORE ; so SHOW_PREP knows how many to show
+		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
 		;set next operator
 		and r6,r6,#0
 		add r6,r6,#1
@@ -107,11 +116,11 @@ ASC_SORT
 		;;lea r3 , DATA_STORE		; r3 <- address of data
 		ld r3 , DATA_STORE_2
 		;add r3 , r3 , #1 no need to increase
-		ld r2,N_STORE
+		ld r2,CAP;N_STORE
 		add r3,r3,r2 ; last position
 		
 		; set how many to show
-		ld r4 , N_STORE ; so SHOW_PREP knows how many to show
+		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
 		
 		;set next operator
 		and r6,r6,#0
@@ -126,7 +135,7 @@ SORT		st r0 , SORT_R0
 		st r4 , SORT_R4
 		st r5 , SORT_R5
 		st r6 , SORT_R6	
-		ld r4 , N_STORE
+		ld r4 , CAP;N_STORE
 		
 OUTERLOOP	add r4, r4, #-1 ; r4 counter outer loop
 		brnz SORTED
@@ -166,7 +175,8 @@ SORT_R4 .FILL 0
 SORT_R5 .FILL 0
 SORT_R6 .FILL 0
 DATA_STORE_3 .FILL x4000
-N_STORE		.blkw 1	
+N_STORE		.blkw 1
+CAP		.FILL #0	
 NEG_1		LDR     R2, R3, #1
 		brp	SWAP
 		br 	CONT
@@ -236,7 +246,7 @@ MULTIPLE_PREP	st r0 , M_R0
 		ld r5 , DATA_STORE_3
 		add r5 , r5 , #1
 		and r3 , r3 , #0		; will be a counter
-		ld  r1 , N_STORE		
+		ld  r1 , CAP;N_STORE		
 		jsr NEGATE_R1
 		add r4 , r1 , 0			;
 		
@@ -275,18 +285,21 @@ NOT_IN_RANGE	lea r0 , MSG_ERROR_N
 		br MAIN
 
 NUM_DONE	lea r0 , MSG_NUM_OK
-		puts	
+		puts
 		br MENU
 
 	
-ENTER_NUM	;let r3 be the counter
-		ld r3 , N_STORE
+ENTER_NUM	;let r3 be the enter flag
+		;ld r3 , N_STORE
+		;and r3 , r3 , #0
 		;;lea r5 , DATA_STORE
-		ld r5 , DATA_STORE_4
-ENTER_NUM_LOOP	add r3 , r3 , #-1
-		brn NUM_DONE
-		jsr INPUT
-		add r1 , r4 , #0
+		;ld r5 , DATA_STORE_4
+		add r5 , r5 , #0
+ENTER_NUM_LOOP	jsr INPUT
+		ld r3 , INPUT_RAW_CHAR
+		add r3 , r3 , #-10
+		brz NUM_DONE
+		add r1 , r0 , #0
 		jsr PUSH_R1_DATA
 		br ENTER_NUM_LOOP
 			
@@ -327,14 +340,16 @@ INPUT		; subroutine, leaves stuff in r4
 
 
 
-INPUT_NO_SAVE	lea r0 , MSG_ENTER
+INPUT_NO_SAVE	lea r0 , MSG_NEXT
 		
 		; we dont need to save r7 so as long we
 		; dont go to something that also goes to a subroutine
 
-		MSG_ENTER .stringz "\n:"
+		MSG_NEXT .stringz "\n:"
 
 		puts
+		and r3 , r3 , #0
+		st r3 , INPUT_RAW_CHAR 	
 		
 		; R1 will be aux dummy reg
 		; R2 will indicate if the number is negative or not
@@ -345,11 +360,17 @@ INPUT_NO_SAVE	lea r0 , MSG_ENTER
 		and r3, r3, x0000 ; flag to know if it was a number
 		
 INPUT_I		getc	; gets c in r0
+
+		add r1 , r0 , #0
+		st r1, INPUT_RAW_CHAR
+		add r1 , r0 , #-10
+		brz INPUT_READY
 		
-		
-		add r1 , r0 , #-10	; check if enter was pressed
-		brz YES_ENTER
-		out	; echo what is in r0 (if not enter)
+		add r1 , r0 , #-15	; check if "," was pressed
+		add r1 , r1 , #-15
+		add r1 , r1 , #-14
+		brz YES_NEXT
+		out	; echo what is in r0 (if not ,)
 		
 		; check if it is a negative number (-) (45)
 		add r1 , r0 , #-15
@@ -419,7 +440,10 @@ INPUT_R4 .FILL 0
 INPUT_R5 .FILL 0
 INPUT_R6 .FILL 0
 INPUT_R7 .FILL 0
-YES_ENTER 	; if enter was first char, it will just assume thats a 0
+INPUT_RAW_CHAR .FILL 0
+TRUE .FILL xFFFF
+FALSE .FILL x0000
+YES_NEXT	; if enter was first char, it will just assume thats a 0
 		;check if no number was pressed
 		add r3,r3,#0
 		brz INPUT_I
@@ -433,8 +457,7 @@ YES_ENTER 	; if enter was first char, it will just assume thats a 0
 		; move it back to r4
 DONT_NEGATE	add r4 , r1 , #0
 		br INPUT_READY
-
-
+;YES_ENTER	br INPUT_READY
 NEGATE_R1	; places in r1 the 2complement of r1
 		not r1 , r1
 		add r1 , r1 , #1
@@ -442,10 +465,17 @@ NEGATE_R1	; places in r1 the 2complement of r1
 
 ;LIFO STACK uses r1 as auxiliar register
 PUSH_R1_DATA	;r5 used as stack register
-		add r5 , r5, #1
-		str r1 , r5 ,#0
+		add r5 , r5 ,#1 ;point to next
+		str r1 , r5 ,#0 ;save
+		ld r1 , CAP
+		add r1 , r1 , #1
+		st r1 , CAP
+		ldr r1 , r5 , #0  
 		ret
-POP_R1_DATA	ldr r1 , r5 , #0
+POP_R1_DATA	ld r1 , CAP
+		add r1 , r1 , #-1
+		st r1 , CAP
+		ldr r1 , r5 , #0
 		add r5 , r5 ,#-1
 
 ; Following subroutines are from https://github.com/jrcurtis/lc3/blob/master/tests/lab5.asm
