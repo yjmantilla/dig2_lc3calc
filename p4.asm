@@ -25,7 +25,9 @@ MENU		lea r0 , MSG_MENU	;Shows menu and ask for option
 		add r1 , r4 , #-2
 		brz VIEW_STACK
 		add r1 , r4 , #-3
-		brz ENTER_OP
+		brz MAKE_OP
+		add r1 , r4 , #-4
+		brz CLEAN_STACK
 		; else invalid option
 		br WHAT	
 WHAT		lea r0 , MSG_WHAT
@@ -55,8 +57,13 @@ DATA_STORE_1 .FILL x4000
 		
 CAP		.FILL #0	
 
-
-		
+CLEAN_STACK	lea r0, MSG_CLEAN
+		puts
+CLEAN_LOOP	ld r1 , CAP
+		brz MENU
+		jsr POP_R1_DATA
+		br CLEAN_LOOP
+MSG_CLEAN .stringz "\n---CLEANING STACK---\n"		
 SHOW_PREP	; Needs r3 with address of data array
 		; Needs r4 with N
 		; Needs r6 with the number to sum for the next
@@ -80,28 +87,37 @@ OP_RAW_CHAR .FILL #0
 
 MSG_SEP .stringz ","
 OP_STORE_1 .FILL x7000
-ENTER_OP	lea r0 , MSG_OPS
+MAKE_OP	lea r0 , MSG_OPS
 		puts
 		ld r6 , OP_STORE_1
 		and r0, r0, #0
 		st r0,CAP_OP
-ENTER_OP_LOOP	jsr INPUT_OP ;result in r2
-		add r1 , r2 , #0
-		brz ENTER_OP_LOOP
-		jsr PUSH_R1_OP
-		ld r3 , OP_RAW_CHAR
+		and r4,r4,#0
+ENTER_OP_LOOP	ld r3 , OP_RAW_CHAR
 		add r3 , r3 , #-10
 		;add r0 , r0 , #-10;r0 has last raw char inputted
         	brz ENTER_OP_READY
+		jsr INPUT_OP ;result in r2
+		add r1 , r2 , #0
+		brz ENTER_OP_LOOP
+		jsr PUSH_R1_OP
+		add r4,r4,#1 ; to avoid enter without operand
 		br ENTER_OP_LOOP
 
-ENTER_OP_READY	lea r0 , MSG_OP_OK
+ENTER_OP_READY	and r1, r1, #0
+		st r1 , OP_RAW_CHAR
+		add r4,r4,#0
+		brz ENTER_OP_LOOP
+		lea r0 , MSG_OP_OK
 		puts
 		br DO_OPS
 
 DO_OPS		ld r4 , CAP_OP  ;#iterator counter
 		ld r6 , OP_STORE_1
-DO_OPS_LOOP	add r6 , r6 , #1 ; first op
+DO_OPS_LOOP	ld r1 , CAP
+		add r1,r1,#-2
+		brn NOT_ENOUGH
+		add r6 , r6 , #1 ; first op
 		jsr POP_R1_DATA
 		add r2 , r1 , #0 ;first operand
 		jsr POP_R1_DATA ;sec operand
@@ -141,23 +157,34 @@ MOD_CASE	jsr MOD
 		br DROP_RESULT
 		br DO_OPS_LOOP
 DROP_RESULT	jsr PUSH_R1_DATA
+		
+		; r1 holds the answer
+		add r0 , r1, #0
+		jsr DISPD
+		lea r0 , MSG_SEP
+		puts
 		add r4 , r4 , #-1
 		brz END_OPS
 		br DO_OPS_LOOP
-END_OPS		; r1 holds the answer
+END_OPS		
 		lea r0 , MSG_LF
 		puts
-		add r0 , r1, #0
-		jsr DISPD
 		br MENU		
-MSG_OP_OK .stringz "\nOP's ok!"
+MSG_OP_OK .stringz "\nANS:"
 MSG_OPS .stringz "\nOP's:"
 MSG_NEXT_OP .stringz "\n:"
-MSG_LF .stringz "\n"
+MSG_LF .stringz ""
+
+
+NOT_ENOUGH	lea r0,MSG_NOT_ENOUGH
+		puts
+		br MENU
+
 INPUT_OP		; subroutine, leaves stuff in r4
 		; save r7 so we dont lose where we came from
 		st r3 ,  OP_R3
 		st r7, 	 OP_R7
+		st r4 , OP_R4
 
 
 OP_NO_SAVE	lea r0 , MSG_NEXT_OP
@@ -219,9 +246,11 @@ OP_READY    add r4 , r4 , #0
 OP_READY2   out
             ld r3 , OP_R3
             ld r7 , OP_R7
+	    ld r4 , OP_R4
             ret
 
 OP_R3 .FILL 0
+OP_R4 .FILL 0
 OP_R7 .FILL 0
 
 
@@ -392,8 +421,7 @@ INPUT_R5 .FILL 0
 INPUT_R6 .FILL 0
 INPUT_R7 .FILL 0
 INPUT_RAW_CHAR .FILL 0
-TRUE .FILL xFFFF
-FALSE .FILL x0000
+MSG_NOT_ENOUGH .stringz "\nERROR, NOT ENOUGH OPERANDS"
 YES_NEXT	; if enter was first char, it will just assume thats a 0
 		;check if no number was pressed
 		add r3,r3,#0
