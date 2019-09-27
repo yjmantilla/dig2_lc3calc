@@ -1,12 +1,10 @@
 .orig x3000 ; change to x0000 for fpga version
-MSG_MENU .stringz "\n\n--RPN CALC--\n1 Enter Stack\n2 View Stack\n3 Make Op's\n4 Clean Stack\nEnter op."
-MSG_ENTER_N	.stringz "\n\nFirst enter N"
-MSG_ENTER_NUM	.stringz "\n\nEnter nums"
-MSG_N_OK .stringz "\nN ok!"
+MSG_MENU .stringz "\n\n--RPN CALC--\n1 Enter Stack\n2 View Stack\n3 Make Op's\n4 Clean Stack\n"
+MSG_ENTER_NUM	.stringz "\n\nNumbers:"
 MSG_WHAT .stringz "\nWrong Input!"
 MSG_HIGH .stringz "\nHIGHEST:\n"
 MSG_LOW .stringz "\nLOWEST:\n"
-MSG_MUL .stringz "\nMULTS: \n"	
+MSG_OP .stringz "\nOP's: \n"	
 
 ; jsrPUTSMSG <-> pputs
 ; jsrPUTCHAR <-> oout
@@ -15,16 +13,6 @@ MSG_MUL .stringz "\nMULTS: \n"
 ; data stack in x4000
 BEGIN		ld r5 , DATA_STORE_1 ; init data stack	
 		br MENU
-
-MAIN_MSG	lea r0 , MSG_ENTER_N
-		puts
-MAIN		jsr INPUT
-		jsr CHECK_N
-		st r4 , N_STORE
-		br INPUT_N_DONE
-
-INPUT_N_DONE	lea r0 , MSG_N_OK
-		puts
 ENTER_STACK		lea r0, MSG_ENTER_NUM
 		puts
 		br ENTER_NUM
@@ -37,13 +25,7 @@ MENU		lea r0 , MSG_MENU	;Shows menu and ask for option
 		add r1 , r4 , #-2
 		brz VIEW_STACK
 		add r1 , r4 , #-3
-		brz LOW_VAL
-		add r1 , r4 , #-4
-		brz DESC_SORT
-		add r1 , r4 , #-5
-		brz ASC_SORT
-		add r1 , r4 , #-6
-		brz MUL_248
+		brz ENTER_OP
 		; else invalid option
 		br WHAT	
 WHAT		lea r0 , MSG_WHAT
@@ -55,14 +37,13 @@ VIEW_STACK			;save reg
 		puts
 		MSG_VIEW .stringz "\nSTACK:\n"
 		;set start point
-		;;lea r3 , DATA_STORE		; r3 <- address of data
-		ld r3 , DATA_STORE_2
+		ld r3 , DATA_STORE_1
 		add r3 , r3 , #1 ;no need to increase, for showing in correct order
-		;ld r2,CAP;N_STORE
+		;ld r2,CAP;
 		;add r3,r3,r2 ; last position
 		
 		; set how many to show
-		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
+		ld r4 , CAP; so SHOW_PREP knows how many to show
 		
 		;set next operator
 		and r6,r6,#0
@@ -71,122 +52,15 @@ VIEW_STACK			;save reg
 		jsr SHOW_PREP
 		br MENU
 DATA_STORE_1 .FILL x4000
-LOW_VAL		lea r0 MSG_LOW
-		puts
-		jsr SORT
-		;show only first pos
-		; set next operator
-		and r6,r6,#0
-		add r6,r6,#1
-		;set number of numbers to show
-		and r4 , r4 , #0
-		add r4 , r4 , #1 ; only one
-		;;lea r3 , DATA_STORE		; r3 <- address of data 
-		;add r3 , r3 , #1 no need to increase
-		ld r3 , DATA_STORE_1
-		ld r2,CAP;N_STORE
-		add r3,r3,r2 ; last position
-		jsr SHOW_PREP
-		br MENU
 		
-DESC_SORT
-		;save reg
-		lea r0 MSG_DESC
-		puts
-		MSG_DESC .stringz "\nDESC.SORT:\n"
-		jsr SORT
-		;;lea r3 , DATA_STORE		; r3 <- address of data
-		ld r3 , DATA_STORE_2
-		add r3 , r3 , #1
-		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
-		;set next operator
-		and r6,r6,#0
-		add r6,r6,#1
-		jsr SHOW_PREP
-		br MENU
-DATA_STORE_2 .FILL x4000
-ASC_SORT	
-		;save reg
-		lea r0 MSG_ASC
-		puts
-		MSG_ASC .stringz "\nASC.SORT:\n"
-		jsr SORT
-		
-		;set start point
-		;;lea r3 , DATA_STORE		; r3 <- address of data
-		ld r3 , DATA_STORE_2
-		;add r3 , r3 , #1 no need to increase
-		ld r2,CAP;N_STORE
-		add r3,r3,r2 ; last position
-		
-		; set how many to show
-		ld r4 , CAP;N_STORE ; so SHOW_PREP knows how many to show
-		
-		;set next operator
-		and r6,r6,#0
-		add r6,r6,#-1
-		jsr SHOW_PREP
-		br MENU
-		
-SORT		st r0 , SORT_R0
-		st r1 , SORT_R1
-		st r2 , SORT_R2
-		st r3 , SORT_R3
-		st r4 , SORT_R4
-		st r5 , SORT_R5
-		st r6 , SORT_R6	
-		ld r4 , CAP;N_STORE
-		
-OUTERLOOP	add r4, r4, #-1 ; r4 counter outer loop
-		brnz SORTED
-		add r5, r4, #0	; r5 counter inner loop
-		;;lea r3 , DATA_STORE
-		ld r3 , DATA_STORE_3
-		add r3 , r3 , #1 ; is the next because of the push
-INNERLOOP	LDR     R1, R3, #0
-		brn  NEG_1
-      		LDR     R2, R3, #1  
-       		brn  	SWAPPED
-CONT		NOT     R6, R2       
-        	ADD     R6, R6, #1  
-         	ADD     R6, R1, R6  ; swap = item - next item
-		BRP    SWAPPED     
-SWAP          	STR     R2, R3, #0  
-           	STR     R1, R3, #1  
-SWAPPED   	ADD     R3, R3, #1  
-           	ADD     R5, R5, #-1 
-          	BRP     INNERLOOP   
-         	BRNZP   OUTERLOOP 
-  
-SORTED	
-		ld r0 , SORT_R0
-		ld r1 , SORT_R1
-		ld r2 , SORT_R2
-		ld r3 , SORT_R3
-		ld r4 , SORT_R4
-		ld r5 , SORT_R5
-		ld r6 , SORT_R6
-		ret
-SORT_R0 .FILL 0
-SORT_R1 .FILL 0
-SORT_R2 .FILL 0
-SORT_R3 .FILL 0
-SORT_R4 .FILL 0
-SORT_R5 .FILL 0
-SORT_R6 .FILL 0
-DATA_STORE_3 .FILL x4000
-N_STORE		.blkw 1
 CAP		.FILL #0	
-NEG_1		LDR     R2, R3, #1
-		brp	SWAP
-		br 	CONT
+
 
 		
 SHOW_PREP	; Needs r3 with address of data array
 		; Needs r4 with N
 		; Needs r6 with the number to sum for the next
-		st r7, SHOW_R7		
-		;lea r3 , DATA_STORE		; r3 <- address of data 
+		st r7, SHOW_R7		 
 		;add r3 , r3 , #1
 SHOW_LOOP	lea r0 , MSG_SEP
 		puts
@@ -201,99 +75,192 @@ SHOW_LOOP	lea r0 , MSG_SEP
 SHOW_END ld r7, SHOW_R7
 		ret		
 SHOW_R7 .FILL 0
-MSG_2 .stringz "\n2:"
-MSG_4 .stringz "\n4:"
-MSG_8 .stringz "\n8:"
 
-MUL_248
-		
-		lea r0 , MSG_MUL
-		puts
-		
-		; for 2
-		lea r0 , MSG_2
-		puts
-		;set mask in r6
-		and r6,r6,#0
-		add r6,r6,x0001
-		jsr MULTIPLE_PREP
+OP_RAW_CHAR .FILL #0
 
-		; for 4
-		lea r0 , MSG_4
-		puts
-		;set mask in r6
-		and r6,r6,#0
-		add r6,r6,x0003
-		jsr MULTIPLE_PREP
-
-		; for 8
-		lea r0 , MSG_8
-		puts
-		;set mask in r6
-		and r6,r6,#0
-		add r6,r6,x0007
-		jsr MULTIPLE_PREP
-		br MENU
-		
-MULTIPLE_PREP	st r0 , M_R0		
-		st r1 , M_R1
-		st r3 , M_R3
-		st r4 , M_R4
-		st r5 , M_R5
-		st r6 , M_R6
-		st r7 , M_R7
-		;;lea r5 DATA_STORE		; where is the data
-		ld r5 , DATA_STORE_3
-		add r5 , r5 , #1
-		and r3 , r3 , #0		; will be a counter
-		ld  r1 , CAP;N_STORE		
-		jsr NEGATE_R1
-		add r4 , r1 , 0			;
-		
-MULTIPLE_LOOP	ldr r1 , r5 , #0
-		add r5 , r5 , #1	
-		and r0 , r1 , r6	; mask
-		brz IS_MUL
-CONT_M		add r3 , r3 , #1
-		add r0 , r3 , r4
-		brz MUL_DONE
-		br MULTIPLE_LOOP
-		
-IS_MUL		lea r0 , MSG_SEP
-		puts
-		add r0 , r1 , #0
-		jsr DISPD
-		br CONT_M
-MUL_DONE	ld r0 , M_R0		
-		ld r1 , M_R1
-		ld r3 , M_R3
-		ld r4 , M_R4
-		ld r5 , M_R5
-		ld r6 , M_R6
-		ld r7 , M_R7
-		ret
 MSG_SEP .stringz ","
-M_R1 .FILL 0
-M_R5 .FILL 0
-M_R6 .FILL 0
-M_R3 .FILL 0
-M_R0 .FILL 0
-M_R4 .FILL 0
-M_R7 .FILL 0
-NOT_IN_RANGE	lea r0 , MSG_ERROR_N
+OP_STORE_1 .FILL x7000
+ENTER_OP	lea r0 , MSG_OPS
 		puts
-		br MAIN
+		ld r6 , OP_STORE_1
+		and r0, r0, #0
+		st r0,CAP_OP
+ENTER_OP_LOOP	jsr INPUT_OP ;result in r2
+		add r1 , r2 , #0
+		brz ENTER_OP_LOOP
+		jsr PUSH_R1_OP
+		ld r3 , OP_RAW_CHAR
+		add r3 , r3 , #-10
+		;add r0 , r0 , #-10;r0 has last raw char inputted
+        	brz ENTER_OP_READY
+		br ENTER_OP_LOOP
 
-NUM_DONE	lea r0 , MSG_NUM_OK
+ENTER_OP_READY	lea r0 , MSG_OP_OK
 		puts
-		br MENU
+		br DO_OPS
 
-	
-ENTER_NUM	;let r3 be the enter flag
-		;ld r3 , N_STORE
-		;and r3 , r3 , #0
-		;;lea r5 , DATA_STORE
-		;ld r5 , DATA_STORE_4
+DO_OPS		ld r4 , CAP_OP  ;#iterator counter
+		ld r6 , OP_STORE_1
+DO_OPS_LOOP	add r6 , r6 , #1 ; first op
+		jsr POP_R1_DATA
+		add r2 , r1 , #0 ;first operand
+		jsr POP_R1_DATA ;sec operand
+		add r3 , r1 , #0
+		; condition for subroutines
+		add r1 , r2 , #0
+		add r2 , r3 , #0
+		ldr r3 , r6 , #0 ; R3 now has operation
+		
+		
+        ; % -3  =>  3
+        ; *  2  => -2
+        ; +  3  => -3
+        ; ,  4  => -4
+        ; -  5  => -5
+        ; /  7  => -7
+		add r0 , r3 , #3
+		brz MOD_CASE
+		add r0 , r3, #-2
+		brz MUL_CASE
+		add r0, r3, #-3
+		brz SUM_CASE
+		add r0, r3, #-5
+		brz SUB_CASE
+		add r0, r3, #-7
+		brz DIV_CASE
+
+MUL_CASE	jsr MUL
+		br DROP_RESULT
+SUM_CASE	jsr SUM
+		br DROP_RESULT
+SUB_CASE	jsr SUB
+		br DROP_RESULT
+DIV_CASE	jsr DIV
+		br DROP_RESULT
+MOD_CASE	jsr MOD
+		br DROP_RESULT
+		br DO_OPS_LOOP
+DROP_RESULT	jsr PUSH_R1_DATA
+		add r4 , r4 , #-1
+		brz END_OPS
+		br DO_OPS_LOOP
+END_OPS		; r1 holds the answer
+		lea r0 , MSG_LF
+		puts
+		add r0 , r1, #0
+		jsr DISPD
+		br MENU		
+MSG_OP_OK .stringz "\nOP's ok!"
+MSG_OPS .stringz "\nOP's:"
+MSG_NEXT_OP .stringz "\n:"
+MSG_LF .stringz "\n"
+INPUT_OP		; subroutine, leaves stuff in r4
+		; save r7 so we dont lose where we came from
+		st r3 ,  OP_R3
+		st r7, 	 OP_R7
+
+
+OP_NO_SAVE	lea r0 , MSG_NEXT_OP
+		
+		; we dont need to save r7 so as long we
+		; dont go to something that also goes to a subroutine
+
+		puts
+		and r3 , r3 , #0
+		st r3 , OP_RAW_CHAR
+        and r4 , r4 , #0 ; counter of valid op's
+        and r2 , r2 , #0 ; will hold valid op result
+		
+		; R1 will be aux dummy reg
+
+OP_I	getc	; gets c in r0
+		st r0, OP_RAW_CHAR
+		add r1 , r0 , #-10
+		brz OP_READY2
+        ; offset char for easier comparison in r3
+		add r3, r0 , #-15	
+		add r3 , r3 , #-15
+        add r3 , r3 , #-10 ; offset of -40
+        ; % -3  =>  3
+        ; *  2  => -2
+        ; +  3  => -3
+        ; ,  4  => -4
+        ; -  5  => -5
+        ; /  7  => -7
+		add r1 , r3 , #-4 ; check if "," was pressed
+		brz OP_READY
+		
+		; % -3  =>  3
+        add r1 , r3 , #3
+		brz VALID_OP
+        ; *  2  => -2
+        add r1 , r3 , #-2
+        brz VALID_OP
+        ; +  3  => -3
+        add r1 , r3 , #-3
+        brz VALID_OP
+        ; -  5  => -5
+        add r1 , r3 , #-5
+        brz VALID_OP
+        ; /  7  => -7
+        add r1 , r3 , #-7
+        brz VALID_OP
+
+        br OP_I	
+		
+VALID_OP	add r4 , r4 , #0 ; if we had already inputted a valid op, force , separator by the user
+            brp OP_I
+            out	; echo r0 with original value
+            add r2 , r3 , #0 ; put mapped value in r2
+            add r4 , r4 , #1 ; add 1 valid op count
+            br OP_I
+OP_READY    add r4 , r4 , #0
+	    brnz OP_I
+OP_READY2   out
+            ld r3 , OP_R3
+            ld r7 , OP_R7
+            ret
+
+OP_R3 .FILL 0
+OP_R7 .FILL 0
+
+
+;LIFO STACK uses r1 as auxiliar register
+PUSH_R1_OP	;r6 used as op stack register
+		add r6 , r6 ,#1 ;point to next
+		str r1 , r6 ,#0 ;save
+		ld r1 , CAP_OP
+		add r1 , r1 , #1
+		st r1 , CAP_OP
+		ldr r1 , r6 , #0  
+		ret
+POP_R1_OP	ld r1 , CAP_OP
+		add r1 , r1 , #-1
+		st r1 , CAP_OP
+		ldr r1 , r6 , #0
+		add r6 , r6 ,#-1
+		ret
+
+CAP_OP .FILL #0
+
+;LIFO STACK uses r1 as auxiliar register
+PUSH_R1_DATA	;r5 used as stack register
+		add r5 , r5 ,#1 ;point to next
+		str r1 , r5 ,#0 ;save
+		ld r1 , CAP
+		add r1 , r1 , #1
+		st r1 , CAP
+		ldr r1 , r5 , #0  
+		ret
+POP_R1_DATA	ld r1 , CAP
+		add r1 , r1 , #-1
+		st r1 , CAP
+		ldr r1 , r5 , #0
+		add r5 , r5 ,#-1
+		ret
+
+ENTER_NUM	;WARNING: AVOID MODIFYING r5 unless you restore its value
+			;it mush have the stack pointer
 		add r5 , r5 , #0
 ENTER_NUM_LOOP	jsr INPUT
 		ld r3 , INPUT_RAW_CHAR
@@ -302,30 +269,13 @@ ENTER_NUM_LOOP	jsr INPUT
 		add r1 , r0 , #0
 		jsr PUSH_R1_DATA
 		br ENTER_NUM_LOOP
-			
-DATA_STORE_4 .FILL x4000
-MSG_ERROR_N     .stringz "\nError: 15 <= N <= 30"
-MSG_NUM_OK .stringz "\nNums ok!"
-N_LOW		.fill #2 ;15
-N_HIGH		.fill #32767 ;30
-CHECK_N		; check range for N
-		; assumes N in r4
-		st r7, 	CHECK_N_R7
-		
-		ld r1 , N_LOW
-		jsr NEGATE_R1
-		add r1 , r4 , r1
-		brn NOT_IN_RANGE
 
-		ld r1 , N_HIGH
-		jsr NEGATE_R1
-		add r1 , r4 , r1
-		brp NOT_IN_RANGE
-		
-		ld r7, CHECK_N_R7
-		; else we are ready to go
-		ret
-CHECK_N_R7 .FILL 0
+NUM_DONE	lea r0 , MSG_NUM_OK
+		puts
+		br MENU
+			
+MSG_NUM_OK .stringz "\nNums ok!"
+
 INPUT		; subroutine, leaves stuff in r4
 		; save r7 so we dont lose where we came from
 		
@@ -357,7 +307,7 @@ INPUT_NO_SAVE	lea r0 , MSG_NEXT
 		
 		and r2 , r2 , x0000
 		and r4 , r4 , x0000
-		and r3, r3, x0000 ; flag to know if it was a number
+		and r3, r3, x0000 ; flag to know if it was a number, it counts the numbers of numbers
 		
 INPUT_I		getc	; gets c in r0
 
@@ -370,7 +320,7 @@ INPUT_I		getc	; gets c in r0
 		add r1 , r1 , #-15
 		add r1 , r1 , #-14
 		brz YES_NEXT
-		out	; echo what is in r0 (if not ,)
+		;out	; echo what is in r0 (if not ,)
 		
 		; check if it is a negative number (-) (45)
 		add r1 , r0 , #-15
@@ -391,7 +341,7 @@ INPUT_I		getc	; gets c in r0
 		; substract 9, if positive it was not a number
 		add r1 , r1 , #-9
 		brp INPUT_I	
-
+		out; if we put the out here it wont even display letters
 		;convert to number
 		and r0 , r0 , xF
 		add r3, r3, #1 ; to know how many number chars were inserted apart from enter
@@ -410,6 +360,7 @@ ACCUM		add r1 , r4 , #0 ; r1 <- 1 r4
 		br INPUT_I
 		
 NEGATIVE	not r2 , r2
+			out ;r0 is 45 we can echo here (out) if out outside if after number check
 		br INPUT_I		
 
 OVERFLOW	add r1 , r4 , r4 ; check if it was possibly -32768
@@ -463,20 +414,7 @@ NEGATE_R1	; places in r1 the 2complement of r1
 		add r1 , r1 , #1
 		ret
 
-;LIFO STACK uses r1 as auxiliar register
-PUSH_R1_DATA	;r5 used as stack register
-		add r5 , r5 ,#1 ;point to next
-		str r1 , r5 ,#0 ;save
-		ld r1 , CAP
-		add r1 , r1 , #1
-		st r1 , CAP
-		ldr r1 , r5 , #0  
-		ret
-POP_R1_DATA	ld r1 , CAP
-		add r1 , r1 , #-1
-		st r1 , CAP
-		ldr r1 , r5 , #0
-		add r5 , r5 ,#-1
+
 
 ; Following subroutines are from https://github.com/jrcurtis/lc3/blob/master/tests/lab5.asm
 ;
@@ -721,7 +659,61 @@ KBSR: .FILL xFE00 ; Keyboard Status Register Address
 KBDR: .FILL xFE02 ; Keyboard Data Register Address
 DSR: .FILL xFE04 ; Display Status Register Address
 DDR: .FILL xFE06 ; Display Data Register Address
-;DATA_STORE 	.blkw #31 ; because push pushes in the next
 
 
+;
+; Divides two integers, returns remainder.
+;
+; Preconditions: R1 is the dividen, R2 the divisor.
+; Postconditions: R1 holds the remainder.
+;
+; THIS ROUTINE WAS DIRECTLY DERIVED FROM DIV ABOVE. THE ONLY DIFFERENCE IS
+; WHICH NUMBER IS LEFT IN R1 AT THE END OF THE ROUTINE.
+;
+MOD 
+	ST R0, MOD_R0
+	ST R1, MOD_R1
+	ST R2, MOD_R2
+	ST R3, MOD_R3
+	ST R7, MOD_R7
+	jsr DIV
+	
+	jsr MUL
+	
+	ld r2 , MOD_R1
+	not r1 , r1
+	add r1 , r1 , #1
+	add  r1, r2,r1
+	
+MOD_CLEANUP
+	LD R0, MOD_R0
+	LD R2, MOD_R2
+	LD R3, MOD_R3
+	LD R7, MOD_R7
+	ADD R1, R1, #0	; Set condition codes for calling routine
+	RET
+
+MOD_R0	.FILL 0
+MOD_R1  .FILL 0
+MOD_R2	.FILL 0
+MOD_R3	.FILL 0
+MOD_R7  .FILL 0
+
+; R1 <- R1 + R2
+SUM add r1 , r1 , r2
+    ret
+
+; R1 <- R1 - R2
+SUB 	st r1 , SUB_R1
+	st r7 , SUB_R7
+ 	add r1 , r2 , #0
+	jsr NEGATE_R1
+	add r2 , r1, #0
+	ld r1 , SUB_R1
+	add r1 , r1 , r2
+	ld r7, SUB_R7
+	ret
+
+SUB_R1 .FILL #0
+SUB_R7 .FILL #0
 .end
