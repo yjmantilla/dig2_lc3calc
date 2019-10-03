@@ -351,7 +351,7 @@ INPUT_I		getc	; gets c in r0
 		add r1 , r0 , #0
 		st r1, INPUT_RAW_CHAR
 		add r1 , r0 , #-10
-		brz INPUT_READY
+		brz YES_NEXT
 		
 		add r1 , r0 , #-15	; check if "," was pressed
 		add r1 , r1 , #-15
