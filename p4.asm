@@ -118,13 +118,15 @@ DO_OPS_LOOP	ld r1 , CAP
 		add r1,r1,#-2
 		brn NOT_ENOUGH
 		add r6 , r6 , #1 ; first op
-		jsr POP_R1_DATA
-		add r2 , r1 , #0 ;first operand
-		jsr POP_R1_DATA ;sec operand
-		add r3 , r1 , #0
+		jsr POP_R1_DATA ;second operand
+		add r2 , r1 , #0 ; r2 has 2nd operand
+		jsr POP_R1_DATA ;first operand
+		;add r3 , r1 , #0 ; not needed , r1 has 1st operand
 		; condition for subroutines
-		add r1 , r2 , #0
-		add r2 , r3 , #0
+		; stack order: next to last, last
+		; operand order: 1st, 2nd
+		;add r1 , r2 , #0 ; not needed
+		;add r2 , r3 , #0 ; not needed
 		ldr r3 , r6 , #0 ; R3 now has operation
 		
 		
@@ -291,7 +293,7 @@ POP_R1_DATA	ld r1 , CAP
 ENTER_NUM	;WARNING: AVOID MODIFYING r5 unless you restore its value
 			;it mush have the stack pointer
 		add r5 , r5 , #0
-ENTER_NUM_LOOP	jsr INPUT
+ENTER_NUM_LOOP	jsr INPUT ;r0 has number, if enter or comma directly, it is 0.
 		ld r3 , INPUT_RAW_CHAR
 		add r3 , r3 , #-10
 		brz NUM_DONE
@@ -299,9 +301,14 @@ ENTER_NUM_LOOP	jsr INPUT
 		jsr PUSH_R1_DATA
 		br ENTER_NUM_LOOP
 
-NUM_DONE	lea r0 , MSG_NUM_OK
+NUM_DONE	ld r1, INPUT_HOW_MANY
+		brz NO_INPUT
+		add r1 , r0 , #0 ;enter the last, if no number it will input a 0, put a single + in op to eliminate
+		jsr PUSH_R1_DATA
+NO_INPUT	lea r0 , MSG_NUM_OK
 		puts
 		br MENU
+
 			
 MSG_NUM_OK .stringz "\nNums ok!"
 
@@ -328,7 +335,8 @@ INPUT_NO_SAVE	lea r0 , MSG_NEXT
 
 		puts
 		and r3 , r3 , #0
-		st r3 , INPUT_RAW_CHAR 	
+		st r3 , INPUT_RAW_CHAR
+		st r3 , INPUT_HOW_MANY 	
 		
 		; R1 will be aux dummy reg
 		; R2 will indicate if the number is negative or not
@@ -401,7 +409,7 @@ OVERFLOW_2		lea r0 , MSG_OVERFLOW
 CASE		add r1, r2, #0 ; check if negative flag is on
 		brzp OVERFLOW_2 ; if it is not negative, then it cant be -32768, is a valid overflow
 		br INPUT_I	
-INPUT_READY	
+INPUT_READY	st r3, INPUT_HOW_MANY
 		;ld r0 , INPUT_R0
 		;ld r1 , INPUT_R1
 		;ld r2 , INPUT_R2
@@ -421,6 +429,7 @@ INPUT_R5 .FILL 0
 INPUT_R6 .FILL 0
 INPUT_R7 .FILL 0
 INPUT_RAW_CHAR .FILL 0
+INPUT_HOW_MANY .FILL 0
 MSG_NOT_ENOUGH .stringz "\nERROR, NOT ENOUGH OPERANDS"
 YES_NEXT	; if enter was first char, it will just assume thats a 0
 		;check if no number was pressed
@@ -614,11 +623,15 @@ DIV	ST R0, DIV_R0
 	ST R3, DIV_R3
 	AND R0, R0, #0	; R0 holds our quotient
 	AND R3, R3, #0	; R3 holds negative flag
-	ADD R1, R1, #0
+DIV_CHECK_ZERO_2
+	add r2,R2,#0
+	BRZ DIV_BY_0
+DIV_CHECK_NEG_1	ADD R1, R1, #0
 	BRn DIV_NEG_1	; If first argument is negative flip flag
+
 DIV_CHECK_NEG_2
 	ADD R2, R2, #0
-	Brn DIV_NEG_2	; Or the second
+	Brn DIV_NEG_2	; Or the second	
 DIV_POST_CHECK_NEG
 	NOT R2, R2
 	ADD R2, R2, #1	; R2 (divisor) negated for repeated subtraction
@@ -650,6 +663,12 @@ DIV_NOT_NEG
 	LD R2, DIV_R2
 	LD R3, DIV_R3
 	ADD R1, R1, #0	; Set condition codes for calling routine
+	RET
+DIV_BY_0 
+	LD R0, DIV_R0
+	LD R2, DIV_R2
+	LD R3, DIV_R3
+	And r1,r1,#0 ; set by default that result is zero
 	RET
 DIV_R0	.FILL 0
 DIV_R2	.FILL 0
@@ -704,14 +723,20 @@ MOD
 	ST R2, MOD_R2
 	ST R3, MOD_R3
 	ST R7, MOD_R7
+	add r2,r2,#0
+	brz MOD_BY_0
 	jsr DIV
+	; r1 is quotient, r2 is still divisor
+	; divident = quotient* divisor + remainder
+	; remainder = divident - quotient*divisor
 	
 	jsr MUL
+	; r1 is quotient* divisor
 	
-	ld r2 , MOD_R1
+	ld r2 , MOD_R1 ; load original divident
 	not r1 , r1
 	add r1 , r1 , #1
-	add  r1, r2,r1
+	add  r1, r2,r1 ; r1 <- original divident - quotient * divisor = remainder
 	
 MOD_CLEANUP
 	LD R0, MOD_R0
@@ -720,7 +745,14 @@ MOD_CLEANUP
 	LD R7, MOD_R7
 	ADD R1, R1, #0	; Set condition codes for calling routine
 	RET
-
+MOD_BY_0 	
+	LD R0, MOD_R0
+	LD R2, MOD_R2
+	LD R3, MOD_R3
+	LD R7, MOD_R7
+	ADD R1, R1, #0	; Set condition codes for calling routine, set by default result is original number
+	ret
+	
 MOD_R0	.FILL 0
 MOD_R1  .FILL 0
 MOD_R2	.FILL 0
