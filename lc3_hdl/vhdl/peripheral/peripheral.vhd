@@ -59,6 +59,12 @@ architecture Behavioral of peripheral_uart is
 	constant PER_ADDRESS_DDR  : std_logic_vector := x"FE06";
 	
 	-- Addresses to be used in ASM code to access to the mult/div peripherals
+	constant PER_ADDRESS_MUL_SR  : std_logic_vector := x"FE08";
+	constant PER_ADDRESS_MUL_A_R  : std_logic_vector := x"FE09";
+	constant PER_ADDRESS_MUL_B_R  : std_logic_vector := x"FE0A";
+	constant PER_ADDRESS_MUL_C_R  : std_logic_vector := x"FE0B";
+	constant PER_ADDRESS_MUL_START_R  : std_logic_vector := x"FE0C";
+	constant PER_ADDRESS_MUL_READY_R  : std_logic_vector := x"FE0D";
 begin
 	-- Process to write/read to/from peripheral from/to LC3
 	process(CLK, RST)

@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Reading design: Top.prj
 
@@ -104,71 +104,71 @@ Slice Utilization Ratio Delta      : 5
 =========================================================================
 *                          HDL Compilation                              *
 =========================================================================
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/microsequencer.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/microsequencer.vhd" in Library work.
 Entity <Microsequencer> compiled.
 Entity <Microsequencer> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/control_store.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/control_store.vhd" in Library work.
 Entity <Control_Store> compiled.
 Entity <Control_Store> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/control_guts_package.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/control_guts_package.vhd" in Library work.
 Package <CONTROL_guts_package> compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/busseddriversresolved.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/busseddriversresolved.vhd" in Library work.
 Entity <BussedDriversResolved> compiled.
 Entity <BussedDriversResolved> (Architecture <dataflow>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/reg_file.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/reg_file.vhd" in Library work.
 Entity <REG_FILE> compiled.
 Entity <REG_FILE> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/alu.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/alu.vhd" in Library work.
 Entity <ALU> compiled.
 Entity <ALU> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/control.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/control.vhd" in Library work.
 Entity <CONTROL> compiled.
 Entity <CONTROL> (Architecture <structure>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/nzp_logic.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/nzp_logic.vhd" in Library work.
 Entity <NZP_LOGIC> compiled.
 Entity <NZP_LOGIC> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/addr_ctl_logic.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/addr_ctl_logic.vhd" in Library work.
 Entity <ADDR_CTL_LOGIC> compiled.
 Entity <ADDR_CTL_LOGIC> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/memory.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/memory.vhd" in Library work.
 Entity <MEMORY> compiled.
 Entity <MEMORY> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/template_register.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/template_register.vhd" in Library work.
 Entity <template_register> compiled.
 Entity <template_register> (Architecture <behavior>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/data_path_package.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/data_path_package.vhd" in Library work.
 Package <data_path_package> compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_serial.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_serial.vhd" in Library work.
 Entity <fsm_serial> compiled.
 Entity <fsm_serial> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_readwritemem.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_readwritemem.vhd" in Library work.
 Entity <fsm_readwritemem> compiled.
 Entity <fsm_readwritemem> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_memory.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_memory.vhd" in Library work.
 Entity <fsm_memory> compiled.
 Entity <fsm_memory> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_lc3.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_lc3.vhd" in Library work.
 Entity <fsm_lc3> compiled.
 Entity <fsm_lc3> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serialinterface.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/serial/serialinterface.vhd" in Library work.
 Entity <serialinterface> compiled.
 Entity <serialinterface> (Architecture <serialinterface>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/peripheral/peripheral.vhd" in Library work.
 Entity <peripheral_uart> compiled.
 Entity <peripheral_uart> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serial.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/serial/serial.vhd" in Library work.
 Entity <Serial> compiled.
 Entity <Serial> (Architecture <Serial>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/bus.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/bus.vhd" in Library work.
 Entity <systembus> compiled.
 Entity <systembus> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/memory/nexys2_mem_interface.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/memory/nexys2_mem_interface.vhd" in Library work.
 Entity <nexys2_mem_interface> compiled.
 Entity <nexys2_mem_interface> (Architecture <Behavioral>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/lc_3_data_path.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/lc_3_data_path.vhd" in Library work.
 Entity <LC_3_data_path> compiled.
 Entity <LC_3_data_path> (Architecture <structure>) compiled.
-Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/top/top.vhd" in Library work.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/top/top.vhd" in Library work.
 Entity <Top> compiled.
 Entity <Top> (Architecture <Behavioral>) compiled.
 
@@ -264,14 +264,14 @@ Analyzing generic Entity <Top> in library <work> (Architecture <Behavioral>).
     Set user-defined property "LOC =  N7" for signal <WEn_m> in unit <Top>.
     Set user-defined property "LOC =  K5" for signal <LBn_m> in unit <Top>.
     Set user-defined property "LOC =  K4" for signal <UBn_m> in unit <Top>.
-WARNING:Xst:753 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/top/top.vhd" line 349: Unconnected output port 'LEDS' of component 'LC_3_data_path'.
+WARNING:Xst:753 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/top/top.vhd" line 349: Unconnected output port 'LEDS' of component 'LC_3_data_path'.
 Entity <Top> analyzed. Unit <Top> generated.
 
 Analyzing generic Entity <peripheral_uart> in library <work> (Architecture <Behavioral>).
 	ADDR_LC3_WIDTH = 16
 	DATA_LC3_WIDTH = 16
-WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 102: Width mismatch. <data_RPer> has a width of 16 bits but assigned expression is 8-bit wide.
-WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 121: Width mismatch. <lc3_tx_data> has a width of 8 bits but assigned expression is 16-bit wide.
+WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/peripheral/peripheral.vhd" line 96: Width mismatch. <data_RPer> has a width of 16 bits but assigned expression is 8-bit wide.
+WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/peripheral/peripheral.vhd" line 115: Width mismatch. <lc3_tx_data> has a width of 8 bits but assigned expression is 16-bit wide.
 Entity <peripheral_uart> analyzed. Unit <peripheral_uart> generated.
 
 Analyzing Entity <Serial> in library <work> (Architecture <Serial>).
@@ -368,7 +368,7 @@ Entity <template_register> analyzed. Unit <template_register> generated.
 Performing bidirectional port resolution...
 
 Synthesizing Unit <peripheral_uart>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/peripheral/peripheral.vhd".
 WARNING:Xst:647 - Input <data_WPer<15:8>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Found finite state machine <FSM_0> for signal <tx_chr_state>.
     -----------------------------------------------------------------------
@@ -430,7 +430,7 @@ Unit <peripheral_uart> synthesized.
 
 
 Synthesizing Unit <nexys2_mem_interface>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/memory/nexys2_mem_interface.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/memory/nexys2_mem_interface.vhd".
     Found finite state machine <FSM_3> for signal <memory_op_states>.
     -----------------------------------------------------------------------
     | States             | 3                                              |
@@ -466,7 +466,7 @@ Unit <nexys2_mem_interface> synthesized.
 
 
 Synthesizing Unit <serialinterface>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serialinterface.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/serial/serialinterface.vhd".
     Found finite state machine <FSM_4> for signal <Sreg0>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
@@ -507,7 +507,7 @@ Unit <serialinterface> synthesized.
 
 
 Synthesizing Unit <fsm_serial>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_serial.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_serial.vhd".
     Found finite state machine <FSM_5> for signal <state_rx>.
     -----------------------------------------------------------------------
     | States             | 3                                              |
@@ -548,7 +548,7 @@ Unit <fsm_serial> synthesized.
 
 
 Synthesizing Unit <fsm_readwritemem>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_readwritemem.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_readwritemem.vhd".
     Using one-hot encoding for signal <protocol_state>.
     Found 8-bit register for signal <LEDS>.
     Found 1-bit register for signal <ChrReadyToPC>.
@@ -578,7 +578,7 @@ Unit <fsm_readwritemem> synthesized.
 
 
 Synthesizing Unit <fsm_memory>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_memory.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_memory.vhd".
     Found finite state machine <FSM_7> for signal <mem_state>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
@@ -606,7 +606,7 @@ Unit <fsm_memory> synthesized.
 
 
 Synthesizing Unit <fsm_lc3>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_lc3.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/fsm_lc3.vhd".
     Found finite state machine <FSM_8> for signal <lc3_state>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
@@ -635,12 +635,12 @@ Unit <fsm_lc3> synthesized.
 
 
 Synthesizing Unit <BussedDriversResolved>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/busseddriversresolved.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/busseddriversresolved.vhd".
 Unit <BussedDriversResolved> synthesized.
 
 
 Synthesizing Unit <REG_FILE>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/reg_file.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/reg_file.vhd".
     Found 16-bit 8-to-1 multiplexer for signal <SR1_out>.
     Found 16-bit 8-to-1 multiplexer for signal <SR2_out>.
     Found 16-bit register for signal <R0>.
@@ -658,7 +658,7 @@ Unit <REG_FILE> synthesized.
 
 
 Synthesizing Unit <ALU>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/alu.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/alu.vhd".
     Found 16-bit adder for signal <A_plus_B>.
     Summary:
 	inferred   1 Adder/Subtractor(s).
@@ -666,7 +666,7 @@ Unit <ALU> synthesized.
 
 
 Synthesizing Unit <NZP_LOGIC>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/nzp_logic.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/nzp_logic.vhd".
     Found 1-bit register for signal <local_N>.
     Found 16-bit comparator less for signal <local_N$cmp_lt0000> created at line 56.
     Found 1-bit register for signal <local_P>.
@@ -678,19 +678,19 @@ Unit <NZP_LOGIC> synthesized.
 
 
 Synthesizing Unit <ADDR_CTL_LOGIC>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/addr_ctl_logic.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/addr_ctl_logic.vhd".
 WARNING:Xst:647 - Input <MAR> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:647 - Input <R_W> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 Unit <ADDR_CTL_LOGIC> synthesized.
 
 
 Synthesizing Unit <MEMORY>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/memory.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/memory.vhd".
 Unit <MEMORY> synthesized.
 
 
 Synthesizing Unit <template_register>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/template_register.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/template_register.vhd".
     Found 16-bit register for signal <reg>.
     Summary:
 	inferred  16 D-type flip-flop(s).
@@ -698,12 +698,12 @@ Unit <template_register> synthesized.
 
 
 Synthesizing Unit <Microsequencer>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/microsequencer.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/microsequencer.vhd".
 Unit <Microsequencer> synthesized.
 
 
 Synthesizing Unit <Control_Store>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/control_store.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/control_store.vhd".
     Found 64x49-bit ROM for signal <next_Microinstruction$rom0000> created at line 18.
     Found 49-bit register for signal <Microinstruction>.
     Summary:
@@ -713,7 +713,7 @@ Unit <Control_Store> synthesized.
 
 
 Synthesizing Unit <Serial>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serial.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/serial/serial.vhd".
     Found finite state machine <FSM_9> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 4                                              |
@@ -740,18 +740,18 @@ Unit <Serial> synthesized.
 
 
 Synthesizing Unit <systembus>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/bus.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/bus/bus.vhd".
 Unit <systembus> synthesized.
 
 
 Synthesizing Unit <CONTROL>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/control.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/control.vhd".
 WARNING:Xst:647 - Input <IR<8:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 Unit <CONTROL> synthesized.
 
 
 Synthesizing Unit <LC_3_data_path>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/lc3/lc_3_data_path.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/lc3/lc_3_data_path.vhd".
 WARNING:Xst:646 - Signal <Vector_MUX> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <Set_Priv> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <SP_MUX> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
@@ -775,7 +775,7 @@ Unit <LC_3_data_path> synthesized.
 
 
 Synthesizing Unit <Top>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/top/top.vhd".
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl_RAW/vhdl/top/top.vhd".
 Unit <Top> synthesized.
 
 WARNING:Xst:524 - All outputs of the instance <reg_DDR> of the block <template_register> are unconnected in block <LC_3_data_path>.
@@ -1319,11 +1319,11 @@ Offset:              4.040ns (Levels of Logic = 1)
 
 
 Total REAL time to Xst completion: 12.00 secs
-Total CPU time to Xst completion: 11.84 secs
+Total CPU time to Xst completion: 11.74 secs
  
 --> 
 
-Total memory usage is 4570412 kilobytes
+Total memory usage is 4570372 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   68 (   0 filtered)
