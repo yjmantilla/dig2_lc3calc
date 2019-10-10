@@ -35,6 +35,15 @@ port (
 end peripheral_uart;
 
 architecture Behavioral of peripheral_uart is
+
+	COMPONENT multiplier
+	PORT(
+		i_a : IN std_logic_vector(15 downto 0);
+		i_b : IN std_logic_vector(15 downto 0);          
+		o_p : OUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+	
 	-- To interface with fsm_lc3_comp
 	type fsm_machine is (init, s0, s1);
 	signal peripheral_state	: fsm_machine := init;
@@ -65,7 +74,20 @@ architecture Behavioral of peripheral_uart is
 	constant PER_ADDRESS_MUL_C_R  : std_logic_vector := x"FE0B";
 	constant PER_ADDRESS_MUL_START_R  : std_logic_vector := x"FE0C";
 	constant PER_ADDRESS_MUL_READY_R  : std_logic_vector := x"FE0D";
+	
+	-- signals of mul
+	signal A : std_logic_vector(15 downto 0):= (others => '0');
+	signal B : std_logic_vector(15 downto 0):= (others => '0');
+	signal C : std_logic_vector(31 downto 0):= (others => '0');
+	signal C_2 : std_logic_vector(15 downto 0):= (others => '0');
 begin
+
+	Inst_multiplier: multiplier PORT MAP(
+		i_a => A,
+		i_b => B,
+		o_p => C
+	);
+	C_2 <= C(15 downto 0);
 	-- Process to write/read to/from peripheral from/to LC3
 	process(CLK, RST)
 	begin
@@ -113,6 +135,18 @@ begin
 								data_RPer <= x"0000";	
 							end if;	
 						-- Pass values from mult/div units to LC3 from here
+						elsif (AddrP = PER_ADDRESS_MUL_SR) then
+							if (lc3_rx_ready = '1') then
+								data_RPer <= x"8000";
+							else
+								data_RPer <= x"0000";
+							end if;
+						elsif (AddrP = PER_ADDRESS_MUL_C_R) then
+							data_RPer <= C_2;--lc3_rx_data;
+							if (lc3_rx_ready = '1') then
+								-- Clear KBSR register and allows a new char in UART
+								lc3_rx_next <= '1';		
+							end if;
 						end if;
 					else	-- write to Peripheral
 						if (AddrP = PER_ADDRESS_DDR) then
@@ -120,8 +154,20 @@ begin
 								-- Take the char from LC3 and send it to the UART
 								lc3_tx_data <= data_WPer;
 								lc3_tx_write <= '1';		
-							end if;	
+							end if;
 						-- Pass values from LC3 to mult/div units from here.
+						elsif (AddrP = PER_ADDRESS_MUL_A_R) then
+							if (lc3_tx_ready = '1') then
+								-- Take the char from LC3 and send it to the UART
+								A <= data_WPer;--lc3_tx_data <= data_WPer;
+								lc3_tx_write <= '1';		
+							end if;
+						elsif (AddrP = PER_ADDRESS_MUL_B_R) then
+							if (lc3_tx_ready = '1') then
+								-- Take the char from LC3 and send it to the UART
+								B <= data_WPer;--lc3_tx_data <= data_WPer;
+								lc3_tx_write <= '1';		
+							end if;
 						end if;
 					end if;
 					PerOpDone <= '1';					-- For any peripheral address, ack the operation

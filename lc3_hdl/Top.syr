@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Reading design: Top.prj
 
@@ -68,7 +68,7 @@ Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
-Global Maximum Fanout              : 500
+Global Maximum Fanout              : 100000
 Add Generic Clock Buffer(BUFG)     : 24
 Register Duplication               : YES
 Slice Packing                      : YES
@@ -153,6 +153,9 @@ Entity <fsm_lc3> (Architecture <Behavioral>) compiled.
 Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serialinterface.vhd" in Library work.
 Entity <serialinterface> compiled.
 Entity <serialinterface> (Architecture <serialinterface>) compiled.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/multiplier.vhd" in Library work.
+Entity <multiplier> compiled.
+Entity <multiplier> (Architecture <multiplier_array>) compiled.
 Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" in Library work.
 Entity <peripheral_uart> compiled.
 Entity <peripheral_uart> (Architecture <Behavioral>) compiled.
@@ -200,6 +203,9 @@ Analyzing hierarchy for entity <nexys2_mem_interface> in library <work> (archite
 Analyzing hierarchy for entity <LC_3_data_path> in library <work> (architecture <structure>) with generics.
 	DATA_BITS = 16
 	MEMORY_SIZE = 16
+
+Analyzing hierarchy for entity <multiplier> in library <work> (architecture <multiplier_array>) with generics.
+	NBITS = 16
 
 Analyzing hierarchy for entity <serialinterface> in library <work> (architecture <serialinterface>).
 
@@ -270,9 +276,13 @@ Entity <Top> analyzed. Unit <Top> generated.
 Analyzing generic Entity <peripheral_uart> in library <work> (Architecture <Behavioral>).
 	ADDR_LC3_WIDTH = 16
 	DATA_LC3_WIDTH = 16
-WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 102: Width mismatch. <data_RPer> has a width of 16 bits but assigned expression is 8-bit wide.
-WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 121: Width mismatch. <lc3_tx_data> has a width of 8 bits but assigned expression is 16-bit wide.
+WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 124: Width mismatch. <data_RPer> has a width of 16 bits but assigned expression is 8-bit wide.
+WARNING:Xst:1610 - "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd" line 155: Width mismatch. <lc3_tx_data> has a width of 8 bits but assigned expression is 16-bit wide.
 Entity <peripheral_uart> analyzed. Unit <peripheral_uart> generated.
+
+Analyzing generic Entity <multiplier> in library <work> (Architecture <multiplier_array>).
+	NBITS = 16
+Entity <multiplier> analyzed. Unit <multiplier> generated.
 
 Analyzing Entity <Serial> in library <work> (Architecture <Serial>).
 Entity <Serial> analyzed. Unit <Serial> generated.
@@ -367,71 +377,9 @@ Entity <template_register> analyzed. Unit <template_register> generated.
 
 Performing bidirectional port resolution...
 
-Synthesizing Unit <peripheral_uart>.
-    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd".
-WARNING:Xst:647 - Input <data_WPer<15:8>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-    Found finite state machine <FSM_0> for signal <tx_chr_state>.
-    -----------------------------------------------------------------------
-    | States             | 3                                              |
-    | Transitions        | 5                                              |
-    | Inputs             | 2                                              |
-    | Outputs            | 4                                              |
-    | Clock              | CLK                       (rising_edge)        |
-    | Reset              | RST                       (positive)           |
-    | Reset type         | asynchronous                                   |
-    | Reset State        | tx_uart0                                       |
-    | Power Up State     | tx_uart0                                       |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found finite state machine <FSM_1> for signal <peripheral_state>.
-    -----------------------------------------------------------------------
-    | States             | 3                                              |
-    | Transitions        | 4                                              |
-    | Inputs             | 1                                              |
-    | Outputs            | 4                                              |
-    | Clock              | CLK                       (rising_edge)        |
-    | Reset              | RST                       (positive)           |
-    | Reset type         | asynchronous                                   |
-    | Reset State        | init                                           |
-    | Power Up State     | init                                           |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found finite state machine <FSM_2> for signal <rx_chr_state>.
-    -----------------------------------------------------------------------
-    | States             | 3                                              |
-    | Transitions        | 6                                              |
-    | Inputs             | 2                                              |
-    | Outputs            | 4                                              |
-    | Clock              | CLK                       (rising_edge)        |
-    | Reset              | RST                       (positive)           |
-    | Reset type         | asynchronous                                   |
-    | Reset State        | rx_uart0                                       |
-    | Power Up State     | rx_uart0                                       |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found 1-bit register for signal <PerOpDone>.
-    Found 16-bit register for signal <data_RPer>.
-    Found 1-bit register for signal <ChrReadyToPC>.
-    Found 8-bit register for signal <Data_Tx>.
-    Found 1-bit register for signal <Rx_Ack>.
-    Found 8-bit register for signal <lc3_rx_data>.
-    Found 1-bit register for signal <lc3_rx_next>.
-    Found 1-bit register for signal <lc3_rx_ready>.
-    Found 8-bit register for signal <lc3_tx_data>.
-    Found 1-bit register for signal <lc3_tx_ready>.
-    Found 1-bit register for signal <lc3_tx_write>.
-    Summary:
-	inferred   3 Finite State Machine(s).
-	inferred  47 D-type flip-flop(s).
-Unit <peripheral_uart> synthesized.
-
-
 Synthesizing Unit <nexys2_mem_interface>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/memory/nexys2_mem_interface.vhd".
-    Found finite state machine <FSM_3> for signal <memory_op_states>.
+    Found finite state machine <FSM_0> for signal <memory_op_states>.
     -----------------------------------------------------------------------
     | States             | 3                                              |
     | Transitions        | 6                                              |
@@ -465,9 +413,31 @@ Synthesizing Unit <nexys2_mem_interface>.
 Unit <nexys2_mem_interface> synthesized.
 
 
+Synthesizing Unit <multiplier>.
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/multiplier.vhd".
+    Found 32-bit adder for signal <accumulator$add0000> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0000> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0001> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0002> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0003> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0004> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0005> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0006> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0007> created at line 72.
+    Found 32-bit adder for signal <accumulator$addsub0008> created at line 72.
+    Found 32-bit adder for signal <sum>.
+    Found 32-bit adder for signal <sum$addsub0000> created at line 72.
+    Found 32-bit adder for signal <sum$addsub0001> created at line 72.
+    Found 32-bit adder for signal <sum$addsub0002> created at line 72.
+    Found 32-bit adder for signal <sum$addsub0003> created at line 72.
+    Summary:
+	inferred  15 Adder/Subtractor(s).
+Unit <multiplier> synthesized.
+
+
 Synthesizing Unit <serialinterface>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serialinterface.vhd".
-    Found finite state machine <FSM_4> for signal <Sreg0>.
+    Found finite state machine <FSM_1> for signal <Sreg0>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
     | Transitions        | 11                                             |
@@ -508,7 +478,7 @@ Unit <serialinterface> synthesized.
 
 Synthesizing Unit <fsm_serial>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_serial.vhd".
-    Found finite state machine <FSM_5> for signal <state_rx>.
+    Found finite state machine <FSM_2> for signal <state_rx>.
     -----------------------------------------------------------------------
     | States             | 3                                              |
     | Transitions        | 5                                              |
@@ -522,7 +492,7 @@ Synthesizing Unit <fsm_serial>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found finite state machine <FSM_6> for signal <state_tx>.
+    Found finite state machine <FSM_3> for signal <state_tx>.
     -----------------------------------------------------------------------
     | States             | 4                                              |
     | Transitions        | 7                                              |
@@ -579,7 +549,7 @@ Unit <fsm_readwritemem> synthesized.
 
 Synthesizing Unit <fsm_memory>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_memory.vhd".
-    Found finite state machine <FSM_7> for signal <mem_state>.
+    Found finite state machine <FSM_4> for signal <mem_state>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
     | Transitions        | 9                                              |
@@ -607,7 +577,7 @@ Unit <fsm_memory> synthesized.
 
 Synthesizing Unit <fsm_lc3>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/bus/fsm_lc3.vhd".
-    Found finite state machine <FSM_8> for signal <lc3_state>.
+    Found finite state machine <FSM_5> for signal <lc3_state>.
     -----------------------------------------------------------------------
     | States             | 5                                              |
     | Transitions        | 10                                             |
@@ -712,6 +682,70 @@ Synthesizing Unit <Control_Store>.
 Unit <Control_Store> synthesized.
 
 
+Synthesizing Unit <peripheral_uart>.
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/peripheral/peripheral.vhd".
+WARNING:Xst:646 - Signal <C<31:16>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Found finite state machine <FSM_6> for signal <tx_chr_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 5                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 4                                              |
+    | Clock              | CLK                       (rising_edge)        |
+    | Reset              | RST                       (positive)           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | tx_uart0                                       |
+    | Power Up State     | tx_uart0                                       |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found finite state machine <FSM_7> for signal <peripheral_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 4                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 4                                              |
+    | Clock              | CLK                       (rising_edge)        |
+    | Reset              | RST                       (positive)           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | init                                           |
+    | Power Up State     | init                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found finite state machine <FSM_8> for signal <rx_chr_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 4                                              |
+    | Clock              | CLK                       (rising_edge)        |
+    | Reset              | RST                       (positive)           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | rx_uart0                                       |
+    | Power Up State     | rx_uart0                                       |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <PerOpDone>.
+    Found 16-bit register for signal <data_RPer>.
+    Found 1-bit register for signal <ChrReadyToPC>.
+    Found 8-bit register for signal <Data_Tx>.
+    Found 1-bit register for signal <Rx_Ack>.
+    Found 16-bit register for signal <A>.
+    Found 16-bit register for signal <B>.
+    Found 8-bit register for signal <lc3_rx_data>.
+    Found 1-bit register for signal <lc3_rx_next>.
+    Found 1-bit register for signal <lc3_rx_ready>.
+    Found 8-bit register for signal <lc3_tx_data>.
+    Found 1-bit register for signal <lc3_tx_ready>.
+    Found 1-bit register for signal <lc3_tx_write>.
+    Summary:
+	inferred   3 Finite State Machine(s).
+	inferred  79 D-type flip-flop(s).
+Unit <peripheral_uart> synthesized.
+
+
 Synthesizing Unit <Serial>.
     Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/vhdl/serial/serial.vhd".
     Found finite state machine <FSM_9> for signal <state>.
@@ -787,20 +821,21 @@ HDL Synthesis Report
 Macro Statistics
 # ROMs                                                 : 1
  64x49-bit ROM                                         : 1
-# Adders/Subtractors                                   : 8
+# Adders/Subtractors                                   : 23
  16-bit adder                                          : 4
  16-bit subtractor                                     : 1
  17-bit adder                                          : 1
  2-bit adder                                           : 1
  2-bit adder carry out                                 : 1
+ 32-bit adder                                          : 15
 # Counters                                             : 2
  14-bit up counter                                     : 1
  2-bit up counter                                      : 1
-# Registers                                            : 195
+# Registers                                            : 197
  1-bit register                                        : 154
  10-bit register                                       : 1
  14-bit register                                       : 1
- 16-bit register                                       : 21
+ 16-bit register                                       : 23
  17-bit register                                       : 1
  2-bit register                                        : 2
  21-bit register                                       : 2
@@ -833,6 +868,33 @@ Optimizing FSM <Serial_m/state/FSM> on signal <state[1:2]> with user encoding.
  stsend2   | 11
 -----------------------
 Analyzing FSM <FSM_8> for best encoding.
+Optimizing FSM <PeripheralIO_m/rx_chr_state/FSM> on signal <rx_chr_state[1:2]> with gray encoding.
+----------------------
+ State    | Encoding
+----------------------
+ rx_uart0 | 00
+ rx_uart1 | 01
+ rx_uart2 | 11
+----------------------
+Analyzing FSM <FSM_7> for best encoding.
+Optimizing FSM <PeripheralIO_m/peripheral_state/FSM> on signal <peripheral_state[1:2]> with user encoding.
+-------------------
+ State | Encoding
+-------------------
+ init  | 00
+ s0    | 01
+ s1    | 10
+-------------------
+Analyzing FSM <FSM_6> for best encoding.
+Optimizing FSM <PeripheralIO_m/tx_chr_state/FSM> on signal <tx_chr_state[1:2]> with user encoding.
+----------------------
+ State    | Encoding
+----------------------
+ tx_uart0 | 00
+ tx_uart1 | 01
+ tx_uart2 | 10
+----------------------
+Analyzing FSM <FSM_5> for best encoding.
 Optimizing FSM <SystemBus_m/fsm_lc3_comp/lc3_state/FSM> on signal <lc3_state[1:3]> with user encoding.
 ------------------------
  State      | Encoding
@@ -843,7 +905,7 @@ Optimizing FSM <SystemBus_m/fsm_lc3_comp/lc3_state/FSM> on signal <lc3_state[1:3
  lc3_mem    | 011
  lc3_per    | 100
 ------------------------
-Analyzing FSM <FSM_7> for best encoding.
+Analyzing FSM <FSM_4> for best encoding.
 Optimizing FSM <SystemBus_m/fsm_memory_comp/mem_state/FSM> on signal <mem_state[1:5]> with one-hot encoding.
 -------------------
  State | Encoding
@@ -854,7 +916,7 @@ Optimizing FSM <SystemBus_m/fsm_memory_comp/mem_state/FSM> on signal <mem_state[
  m3    | 01000
  m4    | 10000
 -------------------
-Analyzing FSM <FSM_6> for best encoding.
+Analyzing FSM <FSM_3> for best encoding.
 Optimizing FSM <SystemBus_m/fsm_serial_comp/state_tx/FSM> on signal <state_tx[1:2]> with sequential encoding.
 -------------------
  State | Encoding
@@ -864,7 +926,7 @@ Optimizing FSM <SystemBus_m/fsm_serial_comp/state_tx/FSM> on signal <state_tx[1:
  tx2   | 10
  tx3   | 11
 -------------------
-Analyzing FSM <FSM_5> for best encoding.
+Analyzing FSM <FSM_2> for best encoding.
 Optimizing FSM <SystemBus_m/fsm_serial_comp/state_rx/FSM> on signal <state_rx[1:2]> with user encoding.
 -------------------
  State | Encoding
@@ -873,7 +935,7 @@ Optimizing FSM <SystemBus_m/fsm_serial_comp/state_rx/FSM> on signal <state_rx[1:
  rx1   | 01
  rx2   | 10
 -------------------
-Analyzing FSM <FSM_4> for best encoding.
+Analyzing FSM <FSM_1> for best encoding.
 Optimizing FSM <Serial_m/UART/Sreg0/FSM> on signal <Sreg0[1:3]> with gray encoding.
 -------------------
  State | Encoding
@@ -884,7 +946,7 @@ Optimizing FSM <Serial_m/UART/Sreg0/FSM> on signal <Sreg0[1:3]> with gray encodi
  s4    | 010
  s6    | 110
 -------------------
-Analyzing FSM <FSM_3> for best encoding.
+Analyzing FSM <FSM_0> for best encoding.
 Optimizing FSM <Memory_m/memory_op_states/FSM> on signal <memory_op_states[1:2]> with gray encoding.
 -----------------------------
  State           | Encoding
@@ -893,44 +955,10 @@ Optimizing FSM <Memory_m/memory_op_states/FSM> on signal <memory_op_states[1:2]>
  memst_waitingop | 01
  memst_operation | 11
 -----------------------------
-Analyzing FSM <FSM_2> for best encoding.
-Optimizing FSM <PeripheralIO_m/rx_chr_state/FSM> on signal <rx_chr_state[1:2]> with gray encoding.
-----------------------
- State    | Encoding
-----------------------
- rx_uart0 | 00
- rx_uart1 | 01
- rx_uart2 | 11
-----------------------
-Analyzing FSM <FSM_1> for best encoding.
-Optimizing FSM <PeripheralIO_m/peripheral_state/FSM> on signal <peripheral_state[1:2]> with user encoding.
--------------------
- State | Encoding
--------------------
- init  | 00
- s0    | 01
- s1    | 10
--------------------
-Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <PeripheralIO_m/tx_chr_state/FSM> on signal <tx_chr_state[1:2]> with user encoding.
-----------------------
- State    | Encoding
-----------------------
- tx_uart0 | 00
- tx_uart1 | 01
- tx_uart2 | 10
-----------------------
 WARNING:Xst:1290 - Hierarchical block <reg_KBSR> is unconnected in block <LC3>.
    It will be removed from the design.
 WARNING:Xst:1290 - Hierarchical block <reg_DSR> is unconnected in block <LC3>.
    It will be removed from the design.
-WARNING:Xst:1710 - FF/Latch <data_RPer_8> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_9> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_10> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_11> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_12> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_13> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <data_RPer_14> (without init value) has a constant value of 0 in block <PeripheralIO_m>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <LEDS_3> (without init value) has a constant value of 0 in block <readwritemem_comp>. This FF/Latch will be trimmed during the optimization process.
 
 =========================================================================
@@ -940,17 +968,18 @@ Macro Statistics
 # FSMs                                                 : 10
 # ROMs                                                 : 1
  64x49-bit ROM                                         : 1
-# Adders/Subtractors                                   : 8
+# Adders/Subtractors                                   : 23
  16-bit adder                                          : 4
  16-bit subtractor                                     : 1
  17-bit adder                                          : 1
  2-bit adder                                           : 1
  2-bit adder carry out                                 : 1
+ 32-bit adder                                          : 15
 # Counters                                             : 2
  14-bit up counter                                     : 1
  2-bit up counter                                      : 1
-# Registers                                            : 674
- Flip-Flops                                            : 674
+# Registers                                            : 706
+ Flip-Flops                                            : 706
 # Comparators                                          : 5
  14-bit comparator equal                               : 1
  16-bit comparator less                                : 2
@@ -964,13 +993,6 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:1710 - FF/Latch <data_RPer_8> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_9> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_10> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_11> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_12> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_13> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <data_RPer_14> (without init value) has a constant value of 0 in block <peripheral_uart>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <LEDS_3> (without init value) has a constant value of 0 in block <fsm_readwritemem>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <peripheral_state_FSM_FFd1> in Unit <peripheral_uart> is equivalent to the following FF/Latch, which will be removed : <PerOpDone> 
 WARNING:Xst:524 - All outputs of the instance <reg_KBSR> of the block <template_register> are unconnected in block <LC_3_data_path>.
@@ -1006,7 +1028,7 @@ INFO:Xst:2261 - The FF/Latch <Microinstruction_48> in Unit <Control_Store> is eq
 
 Optimizing unit <Top> ...
 
-Optimizing unit <peripheral_uart> ...
+Optimizing unit <multiplier> ...
 
 Optimizing unit <ALU> ...
 
@@ -1018,6 +1040,8 @@ Optimizing unit <serialinterface> ...
 
 Optimizing unit <REG_FILE> ...
 
+Optimizing unit <peripheral_uart> ...
+
 Optimizing unit <Serial> ...
 
 Optimizing unit <systembus> ...
@@ -1026,9 +1050,11 @@ Optimizing unit <LC_3_data_path> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block Top, actual ratio is 14.
-FlipFlop LC3/reg_IR/reg_0 has been replicated 1 time(s)
-FlipFlop LC3/reg_IR/reg_1 has been replicated 1 time(s)
+Found area constraint ratio of 100 (+ 5) on block Top, actual ratio is 17.
+FlipFlop PeripheralIO_m/A_0 has been replicated 1 time(s)
+FlipFlop PeripheralIO_m/A_1 has been replicated 1 time(s)
+FlipFlop PeripheralIO_m/A_2 has been replicated 1 time(s)
+FlipFlop PeripheralIO_m/B_0 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -1036,8 +1062,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 659
- Flip-Flops                                            : 659
+# Registers                                            : 700
+ Flip-Flops                                            : 700
 
 =========================================================================
 
@@ -1066,33 +1092,30 @@ Design Statistics
 # IOs                              : 59
 
 Cell Usage :
-# BELS                             : 1453
+# BELS                             : 1838
 #      GND                         : 1
 #      INV                         : 24
 #      LUT1                        : 47
-#      LUT2                        : 75
-#      LUT2_D                      : 2
-#      LUT2_L                      : 1
-#      LUT3                        : 356
-#      LUT3_D                      : 4
-#      LUT3_L                      : 18
-#      LUT4                        : 481
-#      LUT4_D                      : 25
-#      LUT4_L                      : 43
-#      MULT_AND                    : 6
-#      MUXCY                       : 111
-#      MUXF5                       : 114
-#      MUXF6                       : 33
+#      LUT2                        : 142
+#      LUT2_D                      : 27
+#      LUT2_L                      : 11
+#      LUT3                        : 391
+#      LUT4                        : 673
+#      LUT4_L                      : 4
+#      MULT_AND                    : 13
+#      MUXCY                       : 160
+#      MUXF5                       : 142
+#      MUXF6                       : 34
 #      VCC                         : 1
-#      XORCY                       : 111
-# FlipFlops/Latches                : 659
+#      XORCY                       : 168
+# FlipFlops/Latches                : 700
 #      FD                          : 8
 #      FDC                         : 140
-#      FDCE                        : 311
+#      FDCE                        : 316
 #      FDCE_1                      : 1
 #      FDCP                        : 10
 #      FDCPE                       : 1
-#      FDE                         : 162
+#      FDE                         : 198
 #      FDP                         : 22
 #      FDPE                        : 3
 #      FDR                         : 1
@@ -1110,9 +1133,9 @@ Device utilization summary:
 
 Selected Device : 3s500efg320-5 
 
- Number of Slices:                      661  out of   4656    14%  
- Number of Slice Flip Flops:            659  out of   9312     7%  
- Number of 4 input LUTs:               1076  out of   9312    11%  
+ Number of Slices:                      768  out of   4656    16%  
+ Number of Slice Flip Flops:            700  out of   9312     7%  
+ Number of 4 input LUTs:               1319  out of   9312    14%  
  Number of IOs:                          59
  Number of bonded IOBs:                  59  out of    232    25%  
  Number of GCLKs:                         2  out of     24     8%  
@@ -1138,7 +1161,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-CLK                                | BUFGP                  | 629   |
+CLK                                | BUFGP                  | 670   |
 Serial_m/UART/serial_clk1          | BUFG                   | 30    |
 -----------------------------------+------------------------+-------+
 
@@ -1147,7 +1170,7 @@ Asynchronous Control Signals Information:
 ---------------------------------------------------------------------+-------------------------------+-------+
 Control Signal                                                       | Buffer(FF name)               | Load  |
 ---------------------------------------------------------------------+-------------------------------+-------+
-RST                                                                  | IBUF                          | 450   |
+RST                                                                  | IBUF                          | 455   |
 Serial_m/UART/resync(Serial_m/UART/resync:Q)                         | NONE(Serial_m/UART/contador_0)| 25    |
 Serial_m/UART/resync_not0002_inv(Serial_m/UART/resync_cmp_eq000063:O)| NONE(Serial_m/UART/r)         | 11    |
 Serial_m/UART/busy_0__and0001(Serial_m/UART/busy_0__or000011:O)      | NONE(Serial_m/UART/busy_0)    | 9     |
@@ -1159,8 +1182,8 @@ Timing Summary:
 ---------------
 Speed Grade: -5
 
-   Minimum period: 12.988ns (Maximum Frequency: 76.995MHz)
-   Minimum input arrival time before clock: 4.484ns
+   Minimum period: 26.782ns (Maximum Frequency: 37.339MHz)
+   Minimum input arrival time before clock: 5.499ns
    Maximum output required time after clock: 4.642ns
    Maximum combinational path delay: No path found
 
@@ -1170,50 +1193,61 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK'
-  Clock period: 12.988ns (frequency: 76.995MHz)
-  Total number of paths / destination ports: 252334 / 985
+  Clock period: 26.782ns (frequency: 37.339MHz)
+  Total number of paths / destination ports: 33592877 / 1067
 -------------------------------------------------------------------------
-Delay:               12.988ns (Levels of Logic = 26)
-  Source:            LC3/TheCONTROL/C_S/Microinstruction_14 (FF)
-  Destination:       LC3/TheNZP_LOGIC/local_Z (FF)
+Delay:               26.782ns (Levels of Logic = 37)
+  Source:            PeripheralIO_m/B_2 (FF)
+  Destination:       PeripheralIO_m/data_RPer_15 (FF)
   Source Clock:      CLK rising
   Destination Clock: CLK rising
 
-  Data Path: LC3/TheCONTROL/C_S/Microinstruction_14 to LC3/TheNZP_LOGIC/local_Z
+  Data Path: PeripheralIO_m/B_2 to PeripheralIO_m/data_RPer_15
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FD:C->Q               4   0.514   0.651  LC3/TheCONTROL/C_S/Microinstruction_14 (LC3/TheCONTROL/C_S/Microinstruction_14)
-     LUT3:I0->O           24   0.612   1.094  LC3/SR1MUX<0>1_1 (LC3/SR1MUX<0>1)
-     LUT3:I2->O            1   0.612   0.000  LC3/TheREG_FILE/mux_6 (LC3/TheREG_FILE/mux_6)
-     MUXF5:I0->O           1   0.278   0.000  LC3/TheREG_FILE/mux_4_f5 (LC3/TheREG_FILE/mux_4_f5)
-     MUXF6:I0->O           4   0.451   0.529  LC3/TheREG_FILE/mux_2_f6 (LC3/SR1contents<0>)
-     LUT3:I2->O            1   0.612   0.387  LC3/ADDR1MUX<0>1 (LC3/ADDR1MUX<0>)
-     LUT3:I2->O            1   0.612   0.000  LC3/Madd_ADDRs_lut<0> (LC3/Madd_ADDRs_lut<0>)
-     MUXCY:S->O            1   0.404   0.000  LC3/Madd_ADDRs_cy<0> (LC3/Madd_ADDRs_cy<0>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<1> (LC3/Madd_ADDRs_cy<1>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<2> (LC3/Madd_ADDRs_cy<2>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<3> (LC3/Madd_ADDRs_cy<3>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<4> (LC3/Madd_ADDRs_cy<4>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<5> (LC3/Madd_ADDRs_cy<5>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<6> (LC3/Madd_ADDRs_cy<6>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<7> (LC3/Madd_ADDRs_cy<7>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<8> (LC3/Madd_ADDRs_cy<8>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<9> (LC3/Madd_ADDRs_cy<9>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<10> (LC3/Madd_ADDRs_cy<10>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<11> (LC3/Madd_ADDRs_cy<11>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<12> (LC3/Madd_ADDRs_cy<12>)
-     MUXCY:CI->O           1   0.051   0.000  LC3/Madd_ADDRs_cy<13> (LC3/Madd_ADDRs_cy<13>)
-     MUXCY:CI->O           0   0.051   0.000  LC3/Madd_ADDRs_cy<14> (LC3/Madd_ADDRs_cy<14>)
-     XORCY:CI->O           3   0.699   0.454  LC3/Madd_ADDRs_xor<15> (LC3/ADDRs<15>)
-     LUT4:I3->O            1   0.612   0.360  LC3/TheBUS/bus_out<15>5 (LC3/TheBUS/bus_out<15>5)
-     LUT4:I3->O           15   0.612   0.894  LC3/TheBUS/bus_out<15>93 (LC3/TheNZP_LOGIC/local_N_cmp_lt0000)
-     LUT3:I2->O            1   0.612   0.387  LC3/TheNZP_LOGIC/local_Z_mux000072 (LC3/TheNZP_LOGIC/local_Z_mux000072)
-     LUT4:I2->O            1   0.612   0.000  LC3/TheNZP_LOGIC/local_Z_mux000086 (LC3/TheNZP_LOGIC/local_Z_mux0000)
-     FDPE:D                    0.268          LC3/TheNZP_LOGIC/local_Z
+     FDE:C->Q             17   0.514   1.045  PeripheralIO_m/B_2 (PeripheralIO_m/B_2)
+     LUT2:I0->O            1   0.612   0.360  PeripheralIO_m/Inst_multiplier/partial_products_2_and0000<0>1 (PeripheralIO_m/Inst_multiplier/partial_products<2><0>)
+     LUT4:I3->O            1   0.612   0.360  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001C11 (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001C1)
+     LUT4:I3->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001_Madd_lut<3> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001_Madd_lut<3>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001_Madd_cy<3> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001_Madd_cy<3>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0001_Madd_xor<4> (PeripheralIO_m/Inst_multiplier/accumulator_addsub0001<4>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003R11 (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_lut<4> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_lut<4>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_cy<4> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_cy<4>)
+     MUXCY:CI->O           1   0.052   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_cy<5> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_cy<5>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0003_Madd_xor<6> (PeripheralIO_m/Inst_multiplier/accumulator_addsub0003<6>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005R11 (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_lut<6> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_lut<6>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_cy<6> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_cy<6>)
+     MUXCY:CI->O           1   0.051   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_cy<7> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_cy<7>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0005_Madd_xor<8> (PeripheralIO_m/Inst_multiplier/accumulator_addsub0005<8>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007R11 (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_lut<8> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_lut<8>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_cy<8> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_cy<8>)
+     MUXCY:CI->O           1   0.052   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_cy<9> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_cy<9>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_accumulator_addsub0007_Madd_xor<10> (PeripheralIO_m/Inst_multiplier/accumulator_addsub0007<10>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000R1111 (PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_lut<10> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_lut<10>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_cy<10> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_cy<10>)
+     MUXCY:CI->O           1   0.052   0.000  PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_cy<11> (PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_cy<11>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_accumulator_add0000_Madd_xor<12> (PeripheralIO_m/Inst_multiplier/accumulator_add0000<12>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001R11 (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_lut<12> (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_lut<12>)
+     MUXCY:S->O            1   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_cy<12> (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_cy<12>)
+     MUXCY:CI->O           1   0.051   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_cy<13> (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_cy<13>)
+     XORCY:CI->O           2   0.699   0.383  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0001_Madd_xor<14> (PeripheralIO_m/Inst_multiplier/sum_addsub0001<14>)
+     LUT4:I3->O            1   0.612   0.387  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003R11 (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003R1)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003_Madd_lut<14> (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003_Madd_lut<14>)
+     MUXCY:S->O            0   0.404   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003_Madd_cy<14> (PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003_Madd_cy<14>)
+     XORCY:CI->O           1   0.699   0.387  PeripheralIO_m/Inst_multiplier/Madd_sum_addsub0003_Madd_xor<15> (PeripheralIO_m/Inst_multiplier/sum_addsub0003<15>)
+     LUT3:I2->O            0   0.612   0.000  PeripheralIO_m/Inst_multiplier/Madd_sum_lut<15> (PeripheralIO_m/Inst_multiplier/Madd_sum_lut<15>)
+     XORCY:LI->O           1   0.458   0.387  PeripheralIO_m/Inst_multiplier/Madd_sum_xor<15> (PeripheralIO_m/C<15>)
+     LUT3:I2->O            1   0.612   0.000  PeripheralIO_m/data_RPer_mux0002<0>52 (PeripheralIO_m/data_RPer_mux0002<0>)
+     FDCE:D                    0.268          PeripheralIO_m/data_RPer_15
     ----------------------------------------
-    Total                     12.988ns (8.231ns logic, 4.757ns route)
-                                       (63.4% logic, 36.6% route)
+    Total                     26.782ns (19.622ns logic, 7.159ns route)
+                                       (73.3% logic, 26.7% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'Serial_m/UART/serial_clk1'
@@ -1239,29 +1273,30 @@ Delay:               2.888ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
-  Total number of paths / destination ports: 195 / 194
+  Total number of paths / destination ports: 231 / 230
 -------------------------------------------------------------------------
-Offset:              4.484ns (Levels of Logic = 2)
+Offset:              5.499ns (Levels of Logic = 3)
   Source:            RST (PAD)
-  Destination:       Memory_m/sCEn_m (FF)
+  Destination:       PeripheralIO_m/B_15 (FF)
   Destination Clock: CLK rising
 
-  Data Path: RST to Memory_m/sCEn_m
+  Data Path: RST to PeripheralIO_m/B_15
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           470   1.106   1.190  RST_IBUF (RST_IBUF)
-     INV:I->O            104   0.612   1.092  SystemBus_m/fsm_lc3_comp/RST_inv1_INV_0 (Memory_m/RESET_inv)
-     FDE:CE                    0.483          Memory_m/sData_m_0
+     IBUF:I->O           476   1.106   1.261  RST_IBUF (RST_IBUF)
+     LUT2:I1->O            2   0.612   0.532  PeripheralIO_m/A_and000022 (PeripheralIO_m/N4)
+     LUT4:I0->O           17   0.612   0.893  PeripheralIO_m/B_and00001 (PeripheralIO_m/B_and0000)
+     FDE:CE                    0.483          PeripheralIO_m/B_0
     ----------------------------------------
-    Total                      4.484ns (2.201ns logic, 2.283ns route)
-                                       (49.1% logic, 50.9% route)
+    Total                      5.499ns (2.813ns logic, 2.686ns route)
+                                       (51.2% logic, 48.8% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'Serial_m/UART/serial_clk1'
   Total number of paths / destination ports: 19 / 19
 -------------------------------------------------------------------------
-Offset:              4.157ns (Levels of Logic = 2)
+Offset:              4.159ns (Levels of Logic = 2)
   Source:            RST (PAD)
   Destination:       Serial_m/UART/word_0 (FF)
   Destination Clock: Serial_m/UART/serial_clk1 rising
@@ -1270,11 +1305,11 @@ Offset:              4.157ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           470   1.106   1.259  RST_IBUF (RST_IBUF)
+     IBUF:I->O           476   1.106   1.261  RST_IBUF (RST_IBUF)
      LUT2:I1->O            9   0.612   0.697  Serial_m/UART/word_not00011 (Serial_m/UART/word_not0001)
      FDE:CE                    0.483          Serial_m/UART/word_0
     ----------------------------------------
-    Total                      4.157ns (2.201ns logic, 1.956ns route)
+    Total                      4.159ns (2.201ns logic, 1.958ns route)
                                        (52.9% logic, 47.1% route)
 
 =========================================================================
@@ -1319,13 +1354,13 @@ Offset:              4.040ns (Levels of Logic = 1)
 
 
 Total REAL time to Xst completion: 12.00 secs
-Total CPU time to Xst completion: 11.84 secs
+Total CPU time to Xst completion: 12.43 secs
  
 --> 
 
-Total memory usage is 4570412 kilobytes
+Total memory usage is 4587644 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   68 (   0 filtered)
+Number of warnings :   54 (   0 filtered)
 Number of infos    :   14 (   0 filtered)
 

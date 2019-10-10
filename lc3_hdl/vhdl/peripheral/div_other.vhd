@@ -52,8 +52,8 @@ begin-----------------------------------------------------------------
 
 
 division:process(clk, divstate)
-variable div1: std_logic_vector(15 downto 0);
-variable div2: std_logic_vector(15 downto 0);
+variable dividend: std_logic_vector(15 downto 0);
+variable divisor: std_logic_vector(15 downto 0);
 variable counter: std_logic_vector(15 downto 0);
 variable parcial: std_logic_vector(15 downto 0);
 
@@ -65,45 +65,48 @@ begin
 						divstate <= calcline;
 					when calcline =>
 						counter := "0000000000000000";
-						div1 := NUMBER;
-						div2 := NUMBER2;
-						if(div1(15) = '1' and div2(15) =  '1') then
-							div1 := not(div1) + '1';
-							div2 := not(div2) + '1';
-							parcial := div1;
-						elsif(div1(15) = '1') then
-							div1 := not(div1) + '1';
-							parcial := div1;
-						elsif(div2(15) = '1') then
-							div2 := not(div2) + '1';
-							parcial := div1;
+						dividend := NUMBER;
+						divisor := NUMBER2;
+						-- make number positive
+						if(dividend(15) = '1' and divisor(15) =  '1') then
+							dividend := not(dividend) + '1';
+							divisor := not(divisor) + '1';
+							parcial := dividend;
+						elsif(dividend(15) = '1') then
+							dividend := not(dividend) + '1';
+							parcial := dividend;
+						elsif(divisor(15) = '1') then
+							divisor := not(divisor) + '1';
+							parcial := dividend;
 						else
-							div1 := div1;
-							div2 := div2;
-							parcial := div1;
+							dividend := dividend;
+							divisor := divisor;
+							parcial := dividend;
 						end if;
-						if(div1 < div2) then
+						--special cases
+						if(dividend < divisor) then
 							RESULT <= "0000000000000000";
-							RESIDUE <= div2;
+							RESIDUE <= divisor;
 							FINISH <= x"8000";
-						elsif(div2 = "000000000000000" or div2 = "100000000000000") then
-							RESULT <= "1111111111111111";
-							RESIDUE <= "1111111111111111";
+						elsif(divisor = "000000000000000" or divisor = "100000000000000") then
+							RESULT <= x"8000";
+							RESIDUE <= x"8000";
 							FINISH <= x"8000";
-						elsif(div1 = "000000000000000" or div2 = "100000000000000") then
+						elsif(dividend = "000000000000000" or dividend = "100000000000000") then
 							RESULT <= "0000000000000000";
 							RESIDUE <= "0000000000000000";
 							FINISH <= x"8000";
 						else
 							--Ciclo para calcular las lineas a sumar
-							while(parcial(15) = '0' and parcial /= "0000000000000000") loop
-								parcial := parcial - div2;
+							while( parcial(15) = '0' and parcial > "0000000000000000") loop --parcial(15) = '0' and
+									--while positive and greater than 0
+							parcial := parcial - divisor;
 								counter := counter + '1';
 							end loop;
 					
-							if(parcial = x"0") then
-							
-								if(NUMBER(15) = '1' xor NUMBER2(15) = '1') then
+							if(parcial = x"0000") then --=x"0"
+							-- if positive
+								if(NUMBER(15) = '1' xor NUMBER2(15) = '1') then --give sign
 								
 									RESULT <= not(counter)+ '1';
 									RESIDUE <= "0000000000000000";
@@ -113,16 +116,22 @@ begin
 									RESIDUE <= "0000000000000000";
 									FINISH <= x"8000";
 								end if;
-							else
-								counter := counter + 1;
+							else -- was negative , we did one more
+								counter := counter - 1;
+								parcial := parcial + divisor;
 								if(NUMBER(15) = '1' xor NUMBER2(15) = '1') then
 									RESULT <= not(counter) +'1';
-									RESIDUE <= not(parcial + div2) + '1';
+									--RESIDUE <= not(parcial) + '1';
 									FINISH <= x"8000";
 								else
 									RESULT <= counter;
-									RESIDUE <= parcial + div2;
+									RESIDUE <= parcial;
 									FINISH <= x"8000";
+								end if;
+								if (NUMBER(15) = '1') then
+									RESIDUE <= not (parcial) +1;
+								else 
+									RESIDUE <= parcial;
 								end if;
 								divstate <= calcline;
 							end if;

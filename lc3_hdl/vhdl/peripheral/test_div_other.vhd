@@ -95,11 +95,45 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;
 
-		NUMBER <= std_logic_vector (to_unsigned(245, NUMBER'length));
-		NUMBER2 <= std_logic_vector (to_unsigned(175, NUMBER2'length));
+		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(3, NUMBER2'length));
 		START <= '1';
-		wait for 10 ns;
+		wait for 100 ns;
 		
+		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(-3	, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
+		NUMBER <= std_logic_vector (to_signed(-10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(3, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
+		NUMBER <= std_logic_vector (to_signed(-10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(-3, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
+		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(2, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
+		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(-2, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
+		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(0, NUMBER2'length));
+		START <= '1';
+		
+		wait for 100 ns;
+		NUMBER <= std_logic_vector (to_signed(0, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(10, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;		
       wait for clk_period*10;
 
 
