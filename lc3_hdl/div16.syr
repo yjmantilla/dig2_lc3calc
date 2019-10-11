@@ -1,0 +1,442 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.18 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.19 secs
+ 
+--> Reading design: div16.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "div16.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "div16"
+Output Format                      : NGC
+Target Device                      : xc3s500e-5-fg320
+
+---- Source Options
+Top Module Name                    : div16
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 24
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/fsub.vhd" in Library work.
+Architecture behavioral of Entity fsub is up to date.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/sub16.vhd" in Library work.
+Architecture behavioral of Entity sub16 is up to date.
+Compiling vhdl file "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/div16.vhd" in Library work.
+Architecture behavioral of Entity div16 is up to date.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <div16> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <sub16> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <fsub> in library <work> (architecture <behavioral>).
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <div16> in library <work> (Architecture <behavioral>).
+Entity <div16> analyzed. Unit <div16> generated.
+
+Analyzing Entity <sub16> in library <work> (Architecture <behavioral>).
+Entity <sub16> analyzed. Unit <sub16> generated.
+
+Analyzing Entity <fsub> in library <work> (Architecture <behavioral>).
+Entity <fsub> analyzed. Unit <fsub> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <fsub>.
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/fsub.vhd".
+    Found 1-bit xor3 for signal <sso>.
+    Found 1-bit xor2 for signal <sco$xor0000> created at line 14.
+    Summary:
+	inferred   1 Xor(s).
+Unit <fsub> synthesized.
+
+
+Synthesizing Unit <sub16>.
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/sub16.vhd".
+Unit <sub16> synthesized.
+
+
+Synthesizing Unit <div16>.
+    Related source file is "C:/Users/user/Desktop/code/lc3calc/lc3_hdl/div16.vhd".
+    Found finite state machine <FSM_0> for signal <state_now>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 3                                              |
+    | Outputs            | 4                                              |
+    | Clock              | clk                       (rising_edge)        |
+    | Clock enable       | clr                       (negative)           |
+    | Power Up State     | sx_in                                          |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 16-bit register for signal <n_now>.
+    Found 16-bit adder for signal <n_now$addsub0000> created at line 77.
+    Found 16-bit register for signal <X_now>.
+    Found 16-bit register for signal <Y_now>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  48 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+Unit <div16> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 1
+ 16-bit adder                                          : 1
+# Registers                                            : 3
+ 16-bit register                                       : 3
+# Xors                                                 : 32
+ 1-bit xor2                                            : 16
+ 1-bit xor3                                            : 16
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <state_now/FSM> on signal <state_now[1:2]> with gray encoding.
+---------------------
+ State   | Encoding
+---------------------
+ sx_in   | 00
+ sx_proc | 01
+ sx_done | 11
+---------------------
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 1
+# Adders/Subtractors                                   : 1
+ 16-bit adder                                          : 1
+# Registers                                            : 48
+ Flip-Flops                                            : 48
+# Xors                                                 : 32
+ 1-bit xor2                                            : 16
+ 1-bit xor3                                            : 16
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <div16> ...
+
+Optimizing unit <sub16> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block div16, actual ratio is 1.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 50
+ Flip-Flops                                            : 50
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : div16.ngr
+Top Level Output File Name         : div16
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : No
+
+Design Statistics
+# IOs                              : 67
+
+Cell Usage :
+# BELS                             : 221
+#      GND                         : 1
+#      INV                         : 2
+#      LUT1                        : 15
+#      LUT2                        : 10
+#      LUT3                        : 56
+#      LUT3_D                      : 3
+#      LUT3_L                      : 2
+#      LUT4                        : 71
+#      LUT4_D                      : 12
+#      LUT4_L                      : 17
+#      MUXCY                       : 15
+#      VCC                         : 1
+#      XORCY                       : 16
+# FlipFlops/Latches                : 50
+#      FDC                         : 32
+#      FDCE                        : 16
+#      FDE                         : 2
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 66
+#      IBUF                        : 34
+#      OBUF                        : 32
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s500efg320-5 
+
+ Number of Slices:                      100  out of   4656     2%  
+ Number of Slice Flip Flops:             50  out of   9312     0%  
+ Number of 4 input LUTs:                188  out of   9312     2%  
+ Number of IOs:                          67
+ Number of bonded IOBs:                  67  out of    232    28%  
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 50    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+-----------------------------------+------------------------+-------+
+Control Signal                     | Buffer(FF name)        | Load  |
+-----------------------------------+------------------------+-------+
+clr                                | IBUF                   | 48    |
+-----------------------------------+------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: 8.906ns (Maximum Frequency: 112.282MHz)
+   Minimum input arrival time before clock: 10.177ns
+   Maximum output required time after clock: 5.800ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 8.906ns (frequency: 112.282MHz)
+  Total number of paths / destination ports: 7426 / 50
+-------------------------------------------------------------------------
+Delay:               8.906ns (Levels of Logic = 7)
+  Source:            X_now_10 (FF)
+  Destination:       X_now_9 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: X_now_10 to X_now_9
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              5   0.514   0.607  X_now_10 (X_now_10)
+     LUT4:I1->O            3   0.612   0.481  U0/U11/Mxor_sso_xo<0>11_SW0 (N46)
+     LUT3:I2->O            2   0.612   0.532  U0/U11/sco1_SW0 (N64)
+     LUT3:I0->O            2   0.612   0.449  U0/U9/sco1_SW0 (N77)
+     LUT3:I1->O            4   0.612   0.529  U0/U13/sco1 (U0/scx<13>)
+     LUT3_D:I2->O         16   0.612   0.882  U0/U16/sco1 (M)
+     LUT4:I3->O            1   0.612   0.360  X_now_mux0000<9>72_SW0 (N23)
+     LUT4:I3->O            1   0.612   0.000  X_now_mux0000<9>72 (X_now_mux0000<9>)
+     FDC:D                     0.268          X_now_9
+    ----------------------------------------
+    Total                      8.906ns (5.066ns logic, 3.840ns route)
+                                       (56.9% logic, 43.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 2771 / 67
+-------------------------------------------------------------------------
+Offset:              10.177ns (Levels of Logic = 8)
+  Source:            B<6> (PAD)
+  Destination:       X_now_0 (FF)
+  Destination Clock: clk rising
+
+  Data Path: B<6> to X_now_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             2   1.106   0.532  B_6_IBUF (B_6_IBUF)
+     LUT4:I0->O            1   0.612   0.509  X_now_mux0000<0>1112 (X_now_mux0000<0>1112)
+     LUT4:I0->O           19   0.612   0.991  X_now_mux0000<0>1176 (X_now_mux0000<0>1176)
+     LUT2:I1->O            2   0.612   0.449  X_now_mux0000<0>1191 (N4)
+     LUT4_D:I1->O          1   0.612   0.387  U0/U16/sco1_SW0 (N37)
+     LUT3:I2->O            1   0.612   0.426  U0/U15/sco1_SW2 (N103)
+     LUT4_D:I1->O         31   0.612   1.225  X_now_mux0000<0>11 (N01)
+     LUT4:I0->O            1   0.612   0.000  n_now_mux0000<8>1 (n_now_mux0000<8>)
+     FDC:D                     0.268          n_now_7
+    ----------------------------------------
+    Total                     10.177ns (5.658ns logic, 4.519ns route)
+                                       (55.6% logic, 44.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 96 / 32
+-------------------------------------------------------------------------
+Offset:              5.800ns (Levels of Logic = 2)
+  Source:            state_now_FSM_FFd1 (FF)
+  Destination:       Q<15> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: state_now_FSM_FFd1 to Q<15>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q             54   0.514   1.148  state_now_FSM_FFd1 (state_now_FSM_FFd1)
+     LUT3:I1->O            1   0.612   0.357  R<9>1 (R_9_OBUF)
+     OBUF:I->O                 3.169          R_9_OBUF (R<9>)
+    ----------------------------------------
+    Total                      5.800ns (4.295ns logic, 1.505ns route)
+                                       (74.1% logic, 25.9% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 11.00 secs
+Total CPU time to Xst completion: 11.39 secs
+ 
+--> 
+
+Total memory usage is 4521828 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

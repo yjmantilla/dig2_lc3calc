@@ -99,6 +99,9 @@ BEGIN
 		NUMBER2 <= std_logic_vector (to_signed(3, NUMBER2'length));
 		START <= '1';
 		wait for 100 ns;
+		--clear <= '1';
+		--wait for 10 ns;
+		--clear <= '0';
 		
 		NUMBER <= std_logic_vector (to_signed(10, NUMBER'length));
 		NUMBER2 <= std_logic_vector (to_signed(-3	, NUMBER2'length));
@@ -133,7 +136,21 @@ BEGIN
 		NUMBER <= std_logic_vector (to_signed(0, NUMBER'length));
 		NUMBER2 <= std_logic_vector (to_signed(10, NUMBER2'length));
 		START <= '1';
-		wait for 100 ns;		
+		wait for 100 ns;
+		
+
+		NUMBER <= std_logic_vector (to_signed(-32768, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(2, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;	
+		-- at doing the absolute value we get overflow
+
+
+		NUMBER <= std_logic_vector (to_signed(-32767, NUMBER'length));
+		NUMBER2 <= std_logic_vector (to_signed(2, NUMBER2'length));
+		START <= '1';
+		wait for 100 ns;
+		
       wait for clk_period*10;
 
 
